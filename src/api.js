@@ -20,3 +20,9 @@ export const fetchComments = id => {
     ({ data }) => data.comments,
   );
 };
+
+export const fetchUser = username => {
+  return Axios.get(`${baseURL}/users/${username}`).then(
+    ({ data }) => data.user,
+  );
+};

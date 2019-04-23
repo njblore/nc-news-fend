@@ -6,6 +6,8 @@ import Login from './Components/Login';
 import Articles from './Components/Articles';
 import SingleArticle from './Components/SingleArticle';
 import Topics from './Components/Topics';
+import User from './Components/User';
+import { navigate } from '@reach/router/lib/history';
 
 class App extends Component {
   state = {
@@ -14,6 +16,33 @@ class App extends Component {
     showLogin: false,
     currentTopic: null,
   };
+
+  render() {
+    return (
+      <div className="App">
+        <Header
+          toggleTopics={this.toggleTopics}
+          clearTopic={this.clearTopic}
+          toggleShowLogin={this.toggleShowLogin}
+          toggleLoggedIn={this.toggleLoggedIn}
+          currentUser={this.state.currentUser}
+        />
+        {this.state.showTopics && <Topics setTopic={this.setTopic} />}
+        {this.state.showLogin && (
+          <Login
+            toggleShowLogin={this.toggleShowLogin}
+            setCurrentUser={this.setCurrentUser}
+          />
+        )}
+        <Router>
+          <Articles default currentTopic={this.state.currentTopic} />
+          <SingleArticle path="/:article_id" />
+          <Login path="/login" />
+          <User path="/users/:username" />
+        </Router>
+      </div>
+    );
+  }
 
   toggleTopics = () => {
     if (this.state.currentTopic) {
@@ -30,28 +59,20 @@ class App extends Component {
     this.setState({ currentTopic: topic });
   };
 
-  toggleLogin = () => {
+  toggleShowLogin = () => {
     this.setState({ showLogin: !this.state.showLogin });
   };
 
-  render() {
-    return (
-      <div className="App">
-        <Header
-          toggleTopics={this.toggleTopics}
-          clearTopic={this.clearTopic}
-          toggleLogin={this.toggleLogin}
-        />
-        {this.state.showTopics && <Topics setTopic={this.setTopic} />}
-        {this.state.showLogin && <Login toggleLogin={this.toggleLogin} />}
-        <Router>
-          <Articles default currentTopic={this.state.currentTopic} />
-          <SingleArticle path="/:article_id" />
-          <Login path="/login" />
-        </Router>
-      </div>
-    );
-  }
+  toggleLoggedIn = () => {
+    if (this.state.currentUser) {
+      this.setState({ currentUser: null });
+      navigate('/');
+    }
+  };
+
+  setCurrentUser = user => {
+    this.setState({ currentUser: user });
+  };
 }
 
 export default App;

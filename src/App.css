@@ -12,10 +12,11 @@
   margin-top: 5vh;
 }
 
-.header {
+.site-header {
   border-bottom: 2pt solid red;
   padding-bottom: 2vh;
-  margin: 0 5vw;
+  width: 80vw;
+  margin: auto;
 }
 
 .link {
@@ -26,6 +27,11 @@
 .topics-bar {
   display: flex;
   justify-content: space-around;
+  width: 80vw;
+  margin: auto;
+  border: 2pt solid red;
+  border-top: none;
+  box-sizing: border-box;
 }
 
 .login-box {
