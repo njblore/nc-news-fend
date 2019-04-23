@@ -17,3 +17,8 @@
   padding-bottom: 2vh;
   margin: 0 5vw;
 }
+
+.link {
+  text-decoration: none;
+  color: #0f0f0f;
+}

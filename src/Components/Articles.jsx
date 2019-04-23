@@ -8,11 +8,12 @@ class Articles extends Component {
   render() {
     return (
       <div className="articles-list">
+        {!this.topic && <h1>Latest Articles</h1>}
         {this.state.articles && (
           <div>
             {this.state.articles.map(article => {
               return (
-                <Link to={article.article_id.toString()}>
+                <Link to={article.article_id.toString()} className="link">
                   <ArticleCard article={article} />
                 </Link>
               );

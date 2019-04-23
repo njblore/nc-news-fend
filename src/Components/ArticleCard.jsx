@@ -4,7 +4,7 @@ const ArticleCard = props => {
   return (
     <div className="article-card">
       <header className="article-header">
-        <h2>{props.article.title}</h2>
+        <h2>{props.article.title} </h2>
         <h3>{props.article.author} </h3>
         <h3>{props.article.topic} </h3>
         <h3>{props.article.votes}</h3>

@@ -12,7 +12,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <Router>
-          <Articles path="/" />
+          <Articles default />
           <SingleArticle path="/:article_id" />
           <Login path="/login" />
         </Router>
