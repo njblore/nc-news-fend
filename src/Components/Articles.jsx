@@ -6,10 +6,9 @@ class Articles extends Component {
   state = { articles: null, topics: null };
   render() {
     return (
-      <div>
+      <div className="articles-list">
         {this.state.articles && (
           <div>
-            <h1>All articles</h1>
             {this.state.articles.map(article => {
               return <ArticleCard article={article} />;
             })}

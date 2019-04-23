@@ -1,0 +1,19 @@
+.article-card {
+  border-radius: 5px;
+  background: #f0f0f0;
+  margin: 0 10vw;
+}
+
+.article-header {
+  display: flex;
+}
+
+.articles-list {
+  margin-top: 5vh;
+}
+
+.header {
+  border-bottom: 2pt solid red;
+  padding-bottom: 2vh;
+  margin: 0 5vw;
+}
