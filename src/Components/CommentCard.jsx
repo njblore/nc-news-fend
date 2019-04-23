@@ -1,10 +1,15 @@
 import React from 'react';
 
 const CommentCard = props => {
-  console.log(props);
+  const postedAt = new Date(Date.parse(props.comment.created_at));
   return (
     <div>
-      <p>{props.comment.author}</p>
+      <header className="article-header">
+        <p>{props.comment.author}</p>
+        <p>Posted On: {postedAt.toDateString()}</p>
+        <p>{props.comment.votes} Points</p>
+      </header>
+
       <p>{props.comment.body}</p>
     </div>
   );

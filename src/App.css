@@ -27,3 +27,13 @@
   display: flex;
   justify-content: space-around;
 }
+
+.login-box {
+  position: absolute;
+  background: #f0f0f0;
+  border: 2pt solid black;
+  height: 60vh;
+  width: 60vw;
+  left: 20vw;
+  top: 20vh;
+}

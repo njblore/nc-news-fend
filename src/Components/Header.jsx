@@ -12,7 +12,7 @@ const Header = props => {
           </Link>
         </button>
         <button onClick={props.toggleTopics}>Topics</button>
-        <button>Log In</button>
+        <button onClick={props.toggleLogin}>Log In</button>
       </nav>
     </div>
   );

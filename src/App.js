@@ -11,6 +11,7 @@ class App extends Component {
   state = {
     currentUser: null,
     showTopics: false,
+    showLogin: false,
     currentTopic: null,
   };
 
@@ -29,11 +30,20 @@ class App extends Component {
     this.setState({ currentTopic: topic });
   };
 
+  toggleLogin = () => {
+    this.setState({ showLogin: !this.state.showLogin });
+  };
+
   render() {
     return (
       <div className="App">
-        <Header toggleTopics={this.toggleTopics} clearTopic={this.clearTopic} />
+        <Header
+          toggleTopics={this.toggleTopics}
+          clearTopic={this.clearTopic}
+          toggleLogin={this.toggleLogin}
+        />
         {this.state.showTopics && <Topics setTopic={this.setTopic} />}
+        {this.state.showLogin && <Login toggleLogin={this.toggleLogin} />}
         <Router>
           <Articles default currentTopic={this.state.currentTopic} />
           <SingleArticle path="/:article_id" />
