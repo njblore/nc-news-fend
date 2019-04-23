@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import { fetchTopics } from '../api';
 
 class Topics extends Component {
   state = { topics: null };
@@ -25,9 +25,7 @@ class Topics extends Component {
   }
 
   componentDidMount() {
-    Axios.get('https://northcoders-news-server.herokuapp.com/api/topics').then(
-      ({ data }) => this.setState({ topics: data.topics }),
-    );
+    fetchTopics().then(data => this.setState({ topics: data }));
   }
 }
 

@@ -8,3 +8,9 @@ export const fetchArticles = topic => {
 
   return Axios.get(url).then(({ data }) => data.articles);
 };
+
+export const fetchTopics = () => {
+  return Axios.get(
+    'https://northcoders-news-server.herokuapp.com/api/topics',
+  ).then(({ data }) => data.topics);
+};

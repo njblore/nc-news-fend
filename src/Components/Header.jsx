@@ -6,7 +6,7 @@ const Header = props => {
     <div className="header">
       <h1>Northcoders News</h1>
       <nav>
-        <button>
+        <button onClick={props.clearTopic}>
           <Link to="/" className="link">
             Articles
           </Link>

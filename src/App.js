@@ -15,7 +15,14 @@ class App extends Component {
   };
 
   toggleTopics = () => {
+    if (this.state.currentTopic) {
+      this.clearTopic();
+    }
     this.setState({ showTopics: !this.state.showTopics });
+  };
+
+  clearTopic = () => {
+    this.setState({ currentTopic: null });
   };
 
   setTopic = topic => {
@@ -25,7 +32,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header toggleTopics={this.toggleTopics} />
+        <Header toggleTopics={this.toggleTopics} clearTopic={this.clearTopic} />
         {this.state.showTopics && <Topics setTopic={this.setTopic} />}
         <Router>
           <Articles default currentTopic={this.state.currentTopic} />
