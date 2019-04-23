@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import ArticleCard from './ArticleCard';
+import { Link } from '@reach/router';
 import Axios from 'axios';
 
 class Articles extends Component {
-  state = { articles: null, topics: null };
+  state = { articles: null, topic: null };
   render() {
     return (
       <div className="articles-list">
         {this.state.articles && (
           <div>
             {this.state.articles.map(article => {
-              return <ArticleCard article={article} />;
+              return (
+                <Link to={article.article_id.toString()}>
+                  <ArticleCard article={article} />
+                </Link>
+              );
             })}
           </div>
         )}

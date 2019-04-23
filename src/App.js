@@ -12,8 +12,8 @@ class App extends Component {
       <div className="App">
         <Header />
         <Router>
-          <Articles default />
-          <SingleArticle path="/article/:articleid" />
+          <Articles path="/" />
+          <SingleArticle path="/:article_id" />
           <Login path="/login" />
         </Router>
       </div>
