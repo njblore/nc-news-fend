@@ -1,9 +1,11 @@
 import React from 'react';
 
-const CommentCard = () => {
+const CommentCard = props => {
+  console.log(props);
   return (
     <div>
-      <p>comment</p>
+      <p>{props.comment.author}</p>
+      <p>{props.comment.body}</p>
     </div>
   );
 };
