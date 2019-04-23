@@ -5,14 +5,30 @@ import Header from './Components/Header';
 import Login from './Components/Login';
 import Articles from './Components/Articles';
 import SingleArticle from './Components/SingleArticle';
+import Topics from './Components/Topics';
 
 class App extends Component {
+  state = {
+    currentUser: null,
+    showTopics: false,
+    currentTopic: null,
+  };
+
+  toggleTopics = () => {
+    this.setState({ showTopics: !this.state.showTopics });
+  };
+
+  setTopic = topic => {
+    this.setState({ currentTopic: topic });
+  };
+
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header toggleTopics={this.toggleTopics} />
+        {this.state.showTopics && <Topics setTopic={this.setTopic} />}
         <Router>
-          <Articles default />
+          <Articles default currentTopic={this.state.currentTopic} />
           <SingleArticle path="/:article_id" />
           <Login path="/login" />
         </Router>

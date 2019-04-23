@@ -22,3 +22,8 @@
   text-decoration: none;
   color: #0f0f0f;
 }
+
+.topics-bar {
+  display: flex;
+  justify-content: space-around;
+}
