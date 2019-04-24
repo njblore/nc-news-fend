@@ -65,6 +65,7 @@ class App extends Component {
   toggleLoggedIn = () => {
     if (this.state.currentUser) {
       this.setState({ currentUser: null });
+      localStorage.removeItem('currentUser');
       navigate('/', { state: { loggedOut: true } });
     }
   };
@@ -72,6 +73,11 @@ class App extends Component {
   setCurrentUser = user => {
     this.setState({ currentUser: user });
   };
+
+  componentDidMount() {
+    const user = localStorage.getItem('currentUser');
+    user && this.setCurrentUser(user);
+  }
 }
 
 export default App;

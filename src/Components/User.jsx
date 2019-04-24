@@ -48,7 +48,6 @@ class User extends Component {
     fetchArticles({ author: this.props.username }).then(data =>
       this.setState({ articles: data }),
     );
-    console.log(this.props);
   }
 }
 

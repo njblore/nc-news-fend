@@ -30,6 +30,7 @@ class Login extends Component {
     fetchUser(this.state.username)
       .then(data => {
         data.username && this.props.setCurrentUser(this.state.username);
+        localStorage.setItem('currentUser', data.username);
         this.props.toggleShowLogin();
         navigate(`/users/${data.username}`, { state: { fromLogin: true } });
       })
