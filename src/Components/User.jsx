@@ -9,11 +9,23 @@ class User extends Component {
       <div>
         {this.state.user && (
           <>
-            <h2>{this.state.user.name}</h2>
-            <h3>Articles By {this.state.user.name}:</h3>
+            {this.props.location.state ? (
+              <>
+                <h2>Welcome Back {this.state.user.name}!</h2>
+                <h3>My Articles: </h3>
+              </>
+            ) : (
+              <>
+                <h2>{this.state.user.name}</h2>
+                <h3>Articles By {this.state.user.name}:</h3>
+              </>
+            )}
+
             {this.state.articles &&
               this.state.articles.map(article => {
-                return <ArticleCard article={article} />;
+                return (
+                  <ArticleCard article={article} key={article.article_id} />
+                );
               })}
           </>
         )}
@@ -28,6 +40,7 @@ class User extends Component {
     fetchArticles({ author: this.props.username }).then(data =>
       this.setState({ articles: data }),
     );
+    console.log(this.props);
   }
 }
 

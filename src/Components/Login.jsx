@@ -31,7 +31,7 @@ class Login extends Component {
       .then(data => {
         data.username && this.props.setCurrentUser(this.state.username);
         this.props.toggleShowLogin();
-        navigate(`/users/${data.username}`);
+        navigate(`/users/${data.username}`, { state: { fromLogin: true } });
       })
       .catch(this.setState({ invalidUser: true }));
   };
