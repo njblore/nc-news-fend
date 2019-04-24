@@ -7,7 +7,7 @@ import { updateArticleVotes } from '../api';
 class SingleArticle extends Component {
   state = {
     article: null,
-    votesMade: 0,
+    currentArticleVotes: 0,
   };
   render() {
     return (
@@ -19,11 +19,13 @@ class SingleArticle extends Component {
                 <h1>{this.state.article.title}</h1>
                 <h3>{this.state.article.author}</h3>
                 <h3>{this.state.article.topic}</h3>
-                <h3>{this.state.article.votes + this.state.votesMade}</h3>
+                <h3>
+                  {this.state.article.votes + this.state.currentArticleVotes}
+                </h3>
                 {this.props.currentUser && (
                   <VoteButtons
-                    handleVoteClick={this.handleVoteClick}
-                    type="article"
+                    handleArticleVote={this.handleArticleVote}
+                    currentArticleVotes={this.state.currentArticleVotes}
                   />
                 )}
               </header>
@@ -39,14 +41,12 @@ class SingleArticle extends Component {
     );
   }
 
-  handleVoteClick = (vote, target) => {
-    if (target === 'article') {
-      updateArticleVotes(this.state.article.article_id, vote).then(data =>
-        this.setState(prevState => {
-          return { votesMade: prevState.votesMade + vote };
-        }),
-      );
-    }
+  handleArticleVote = vote => {
+    updateArticleVotes(this.state.article.article_id, vote).then(data =>
+      this.setState(prevState => {
+        return { currentArticleVotes: prevState.currentArticleVotes + vote };
+      }),
+    );
   };
 
   componentDidMount() {

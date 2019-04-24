@@ -36,7 +36,7 @@ class App extends Component {
         )}
         <Router>
           <Articles
-            default
+            path="/"
             currentTopic={this.state.currentTopic}
             currentUser={this.state.currentUser}
           />
@@ -67,13 +67,16 @@ class App extends Component {
 
   toggleShowLogin = () => {
     this.setState({ showLogin: !this.state.showLogin });
+    // use prevstate
   };
 
   toggleLoggedIn = () => {
     if (this.state.currentUser) {
-      this.setState({ currentUser: null });
-      localStorage.removeItem('currentUser');
-      navigate('/', { state: { loggedOut: true } });
+      this.setState({ currentUser: null }, () => {
+        console.log('hello');
+        localStorage.removeItem('currentUser');
+        navigate('/', { state: { loggedOut: true } });
+      });
     }
   };
 

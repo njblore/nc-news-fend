@@ -32,3 +32,8 @@ export const updateArticleVotes = (article_id, vote) => {
   const url = baseURL + '/articles/' + article_id;
   return Axios.patch(url, { inc_votes: vote }).then(({ data }) => data.article);
 };
+
+export const updateCommentVotes = (comment_id, vote) => {
+  const url = baseURL + '/comments/' + comment_id;
+  return Axios.patch(url, { inc_votes: vote }).then(({ data }) => data.comment);
+};
