@@ -5,7 +5,7 @@ import DeleteButton from './DeleteButton';
 import PostComment from './PostComment';
 
 class ArticleComments extends Component {
-  state = { comments: null, showPostComment: false };
+  state = { comments: null, showPostComment: false, newComments: [] };
   render() {
     return (
       <div className="comments-section">
@@ -17,10 +17,11 @@ class ArticleComments extends Component {
           <PostComment
             article_id={this.props.article_id}
             currentUser={this.props.currentUser}
+            updateComments={this.updateComments}
           />
         )}
         {this.state.comments &&
-          this.state.comments.map(comment => {
+          [...this.state.newComments, ...this.state.comments].map(comment => {
             return (
               <div key={comment.comment_id} className="article-link">
                 <CommentCard
@@ -39,6 +40,12 @@ class ArticleComments extends Component {
   toggleShowPostComment = () => {
     this.setState(prevState => {
       return { showPostComment: !prevState.showPostComment };
+    });
+  };
+
+  updateComments = comment => {
+    this.setState(prevState => {
+      return { newComments: [comment, ...prevState.newComments] };
     });
   };
 

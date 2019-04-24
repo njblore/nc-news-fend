@@ -28,7 +28,8 @@ class PostComment extends Component {
       username: this.props.currentUser,
       body: this.state.commentValue,
       article_id: this.props.article_id,
-    }).then(data => console.log(data));
+    }).then(data => this.props.updateComments(data.comment));
+    this.setState({ commentValue: '' });
   };
 }
 
