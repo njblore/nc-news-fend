@@ -13,7 +13,14 @@ const Header = props => {
         </button>
         <button onClick={props.toggleTopics}>Topics</button>
         {props.currentUser ? (
-          <button onClick={props.toggleLoggedIn}>Log Out</button>
+          <>
+            <button>
+              <Link to={`/users/${props.currentUser}`} className="link">
+                My Profile
+              </Link>
+            </button>
+            <button onClick={props.toggleLoggedIn}>Log Out</button>
+          </>
         ) : (
           <button onClick={props.toggleShowLogin}>Log In</button>
         )}
