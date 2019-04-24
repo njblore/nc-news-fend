@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import CommentCard from './CommentCard';
 import { fetchComments } from '../api';
 import VoteButtons from './VoteButtons';
+import DeleteButton from './DeleteButton';
 
 class ArticleComments extends Component {
   state = { comments: null };
   render() {
     return (
-      <div>
+      <div className="comments-section">
         <h3>Comments:</h3>
         {this.state.comments &&
           this.state.comments.map(comment => {
@@ -15,6 +16,8 @@ class ArticleComments extends Component {
               <div key={comment.comment_id} className="article-link">
                 {this.props.currentUser && <VoteButtons />}
                 <CommentCard comment={comment} />
+                {this.props.currentUser &&
+                  this.props.currentUser === comment.author && <DeleteButton />}
               </div>
             );
           })}

@@ -20,6 +20,7 @@ const Header = props => {
               </Link>
             </button>
             <button onClick={props.toggleLoggedIn}>Log Out</button>
+            <p>Logged in as: {props.currentUser}</p>
           </>
         ) : (
           <button onClick={props.toggleShowLogin}>Log In</button>

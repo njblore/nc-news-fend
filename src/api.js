@@ -2,15 +2,14 @@ import Axios from 'axios';
 
 const baseURL = 'https://northcoders-news-server.herokuapp.com/api';
 
-export const fetchArticles = ({ topic = null, author = null }) => {
+export const fetchArticles = params => {
   let url = baseURL + '/articles';
-  if (topic) {
-    url = url + '?topic=' + topic;
-  } else if (author) {
-    url = url + '?author=' + author;
-  }
 
-  return Axios.get(url).then(({ data }) => data.articles);
+  return Axios({
+    method: 'get',
+    url,
+    params,
+  }).then(({ data }) => data.articles);
 };
 
 export const fetchTopics = () => {
@@ -27,4 +26,9 @@ export const fetchUser = username => {
   return Axios.get(`${baseURL}/users/${username}`).then(
     ({ data }) => data.user,
   );
+};
+
+export const updateArticleVotes = (article_id, vote) => {
+  const url = baseURL + '/articles/' + article_id;
+  return Axios.patch(url, { inc_votes: vote }).then(({ data }) => data.article);
 };
