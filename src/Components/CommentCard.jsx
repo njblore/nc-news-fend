@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import VoteButtons from './VoteButtons';
-import { updateCommentVotes } from '../api';
+import { updateCommentVotes, deleteComment } from '../api';
+import DeleteButton from './DeleteButton';
 
 class CommentCard extends Component {
   state = { commentVote: 0 };
@@ -21,9 +22,21 @@ class CommentCard extends Component {
           <p>{this.props.comment.votes + this.state.commentVote} Points</p>
         </header>
         <p>{this.props.comment.body}</p>
+        {this.props.currentUser &&
+          this.props.currentUser === this.props.comment.author && (
+            <DeleteButton
+              handleDelete={() =>
+                this.handleDelete(this.props.comment.comment_id)
+              }
+            />
+          )}
       </div>
     );
   }
+
+  handleDelete = comment_id => {
+    deleteComment(comment_id);
+  };
 
   handleCommentVote = (vote, comment_id) => {
     updateCommentVotes(comment_id, vote).then(data => {

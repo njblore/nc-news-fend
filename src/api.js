@@ -42,3 +42,8 @@ export const postCommentToArticle = commentObject => {
   const url = baseURL + '/articles/' + commentObject.article_id + '/comments';
   return Axios.post(url, commentObject).then(({ data }) => data);
 };
+
+export const deleteComment = comment_id => {
+  const url = baseURL + '/comments/' + comment_id;
+  return Axios.delete(url, { comment_id }).then(({ data }) => data);
+};

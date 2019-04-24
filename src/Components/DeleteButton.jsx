@@ -1,9 +1,11 @@
 import React from 'react';
 
-const DeleteButton = () => {
+const DeleteButton = props => {
   return (
     <div>
-      <button className="delete-button">Delete</button>
+      <button className="delete-button" onClick={props.handleDelete}>
+        Delete
+      </button>
     </div>
   );
 };

@@ -28,8 +28,10 @@ class ArticleComments extends Component {
                   comment={comment}
                   currentUser={this.props.currentUser}
                 />
-                {this.props.currentUser &&
-                  this.props.currentUser === comment.author && <DeleteButton />}
+                {/* {this.props.currentUser &&
+                  this.props.currentUser === comment.author && (
+                    <DeleteButton handleDelete={this.handleDelete} />
+                  )} */}
               </div>
             );
           })}
