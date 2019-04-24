@@ -3,6 +3,7 @@ import ArticleCard from './ArticleCard';
 import { Link } from '@reach/router';
 import { fetchArticles } from '../api';
 import VoteButtons from './VoteButtons';
+import DeleteButton from './DeleteButton';
 
 class Articles extends Component {
   state = { articles: null };
@@ -24,6 +25,10 @@ class Articles extends Component {
                   <Link to={article.article_id.toString()} className="link">
                     <ArticleCard article={article} />
                   </Link>
+                  {this.props.currentUser &&
+                    this.props.currentUser === article.author && (
+                      <DeleteButton />
+                    )}
                 </div>
               );
             })}

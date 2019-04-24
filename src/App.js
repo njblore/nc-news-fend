@@ -44,7 +44,7 @@ class App extends Component {
             path="/:article_id"
             currentUser={this.state.currentUser}
           />
-          <User path="/users/:username" />
+          <User path="/users/:username" currentUser={this.state.currentUser} />
         </Router>
       </div>
     );
