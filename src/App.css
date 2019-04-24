@@ -58,6 +58,18 @@ nav {
   top: 20vh;
 }
 
+.comment-box {
+  height: 30vh;
+  width: 80vw;
+  border: 2pt solid grey;
+  box-sizing: border-box;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+}
+
 .vote-buttons {
   display: flex;
   flex-direction: column;
