@@ -66,14 +66,14 @@ class App extends Component {
   };
 
   toggleShowLogin = () => {
-    this.setState({ showLogin: !this.state.showLogin });
-    // use prevstate
+    this.setState(prevState => {
+      return { showLogin: !prevState.showLogin };
+    });
   };
 
   toggleLoggedIn = () => {
     if (this.state.currentUser) {
       this.setState({ currentUser: null }, () => {
-        console.log('hello');
         localStorage.removeItem('currentUser');
         navigate('/', { state: { loggedOut: true } });
       });

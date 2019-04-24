@@ -10,18 +10,14 @@ const VoteButtons = props => {
       <button
         className="upvote"
         onClick={() => voteFunction(1, props.comment_id)}
-        disabled={
-          props.currentArticleVotes === 1 || props.currentCommentVotes === 1
-        }
+        disabled={props.currentArticleVotes === 1 || props.commentVote === 1}
       >
         ⬆
       </button>
       <button
         className="downvote"
         onClick={() => voteFunction(-1, props.comment_id)}
-        disabled={
-          props.currentArticleVotes === -1 || props.currentCommentVotes === -1
-        }
+        disabled={props.currentArticleVotes === -1 || props.commentVote === -1}
       >
         ⬇
       </button>
