@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { fetchUser, fetchArticles } from '../api';
 import ArticleCard from './ArticleCard';
+import { Link } from '@reach/router';
 
 class User extends Component {
   state = { user: null, articles: null };
@@ -12,7 +13,8 @@ class User extends Component {
             {this.props.location.state ? (
               <>
                 <h2>Welcome Back {this.state.user.name}!</h2>
-                <h3>My Articles: </h3>
+                <img src={this.state.user.avatar_url} alt="user avatar" />
+                <h3> My Articles: </h3>
               </>
             ) : (
               <>
@@ -24,7 +26,13 @@ class User extends Component {
             {this.state.articles &&
               this.state.articles.map(article => {
                 return (
-                  <ArticleCard article={article} key={article.article_id} />
+                  <Link
+                    to={`/${article.article_id.toString()}`}
+                    key={article.article_id}
+                    className="link"
+                  >
+                    <ArticleCard article={article} />
+                  </Link>
                 );
               })}
           </>

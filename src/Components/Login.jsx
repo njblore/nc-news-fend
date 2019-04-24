@@ -33,7 +33,7 @@ class Login extends Component {
         this.props.toggleShowLogin();
         navigate(`/users/${data.username}`, { state: { fromLogin: true } });
       })
-      .catch(this.setState({ invalidUser: true }));
+      .catch(err => this.setState({ invalidUser: true }));
   };
 }
 
