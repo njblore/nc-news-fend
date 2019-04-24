@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ArticleCard from './ArticleCard';
 import { Link } from '@reach/router';
 import { fetchArticles } from '../api';
+import VoteButtons from './VoteButtons';
 
 class Articles extends Component {
   state = { articles: null };
@@ -18,13 +19,12 @@ class Articles extends Component {
           <div>
             {this.state.articles.map(article => {
               return (
-                <Link
-                  to={article.article_id.toString()}
-                  className="link"
-                  key={article.article_id}
-                >
-                  <ArticleCard article={article} />
-                </Link>
+                <div className="article-link" key={article.article_id}>
+                  {this.props.currentUser && <VoteButtons />}
+                  <Link to={article.article_id.toString()} className="link">
+                    <ArticleCard article={article} />
+                  </Link>
+                </div>
               );
             })}
           </div>

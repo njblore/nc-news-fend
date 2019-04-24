@@ -1,7 +1,6 @@
 .article-card {
   border-radius: 5px;
   background: #f0f0f0;
-  margin: 0 10vw;
 }
 
 .article-header {
@@ -42,4 +41,21 @@
   width: 60vw;
   left: 20vw;
   top: 20vh;
+}
+
+.vote-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.article-link {
+  display: flex;
+  margin: auto;
+  width: 80vw;
+}
+
+.comment-card {
+  border-radius: 5px;
+  background: #f0f0f0;
+  margin: 1vh 0;
 }

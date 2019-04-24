@@ -35,8 +35,15 @@ class App extends Component {
           />
         )}
         <Router>
-          <Articles default currentTopic={this.state.currentTopic} />
-          <SingleArticle path="/:article_id" />
+          <Articles
+            default
+            currentTopic={this.state.currentTopic}
+            currentUser={this.state.currentUser}
+          />
+          <SingleArticle
+            path="/:article_id"
+            currentUser={this.state.currentUser}
+          />
           <User path="/users/:username" />
         </Router>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CommentCard from './CommentCard';
 import { fetchComments } from '../api';
+import VoteButtons from './VoteButtons';
 
 class ArticleComments extends Component {
   state = { comments: null };
@@ -10,7 +11,12 @@ class ArticleComments extends Component {
         <h3>Comments:</h3>
         {this.state.comments &&
           this.state.comments.map(comment => {
-            return <CommentCard comment={comment} key={comment.comment_id} />;
+            return (
+              <div key={comment.comment_id} className="article-link">
+                {this.props.currentUser && <VoteButtons />}
+                <CommentCard comment={comment} />
+              </div>
+            );
           })}
       </div>
     );

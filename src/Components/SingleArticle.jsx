@@ -18,7 +18,10 @@ class SingleArticle extends Component {
               <h3>{this.state.article.votes}</h3>
             </header>
             <p>{this.state.article.body}</p>
-            <ArticleComments article_id={this.props.article_id} />
+            <ArticleComments
+              article_id={this.props.article_id}
+              currentUser={this.props.currentUser}
+            />
           </div>
         )}
       </div>
