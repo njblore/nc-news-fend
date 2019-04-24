@@ -37,7 +37,6 @@ class App extends Component {
         <Router>
           <Articles default currentTopic={this.state.currentTopic} />
           <SingleArticle path="/:article_id" />
-          <Login path="/login" />
           <User path="/users/:username" />
         </Router>
       </div>
@@ -66,7 +65,7 @@ class App extends Component {
   toggleLoggedIn = () => {
     if (this.state.currentUser) {
       this.setState({ currentUser: null });
-      navigate('/');
+      navigate('/', { state: { loggedOut: true } });
     }
   };
 

@@ -27,15 +27,13 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    fetchUser(this.state.username).then(data => {
-      if (data) {
+    fetchUser(this.state.username)
+      .then(data => {
         data.username && this.props.setCurrentUser(this.state.username);
         this.props.toggleShowLogin();
         navigate(`/users/${data.username}`);
-      } else {
-        this.setState({ invalidUser: true });
-      }
-    });
+      })
+      .catch(this.setState({ invalidUser: true }));
   };
 }
 

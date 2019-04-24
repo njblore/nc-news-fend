@@ -2,10 +2,12 @@ import Axios from 'axios';
 
 const baseURL = 'https://northcoders-news-server.herokuapp.com/api';
 
-export const fetchArticles = topic => {
+export const fetchArticles = ({ topic = null, author = null }) => {
   let url = baseURL + '/articles';
   if (topic) {
     url = url + '?topic=' + topic;
+  } else if (author) {
+    url = url + '?author=' + author;
   }
 
   return Axios.get(url).then(({ data }) => data.articles);

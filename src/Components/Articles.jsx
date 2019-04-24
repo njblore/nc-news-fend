@@ -34,12 +34,12 @@ class Articles extends Component {
   }
 
   componentDidMount() {
-    fetchArticles().then(data => this.setState({ articles: data }));
+    fetchArticles({}).then(data => this.setState({ articles: data }));
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.currentTopic !== prevProps.currentTopic) {
-      fetchArticles(this.props.currentTopic).then(data =>
+      fetchArticles({ topic: this.props.currentTopic }).then(data =>
         this.setState({ articles: data }),
       );
     }
