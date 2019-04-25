@@ -52,7 +52,7 @@ nav {
 }
 
 .login-box {
-  position: absolute;
+  position: fixed;
   background: #f0f0f0;
   border: 2pt solid black;
   height: 60vh;
@@ -61,6 +61,25 @@ nav {
   top: 20vh;
 }
 
+.post-article {
+  position: fixed;
+  background: #f0f0f0;
+  border: 2pt solid black;
+  height: 60vh;
+  width: 60vw;
+  left: 20vw;
+  top: 20vh;
+}
+
+.article-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.checkbox {
+  display: flex;
+}
 .comment-box {
   height: 30vh;
   width: 80vw;

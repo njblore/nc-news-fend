@@ -4,9 +4,10 @@ import { Link } from '@reach/router';
 import { fetchArticles } from '../api';
 // import VoteButtons from './VoteButtons';
 import DeleteButton from './DeleteButton';
+import PostArticle from './PostArticle';
 
 class Articles extends Component {
-  state = { articles: null, showSortBy: false };
+  state = { articles: null, showSortBy: false, showPostArticle: false };
   render() {
     return (
       <div className="articles-list">
@@ -38,6 +39,17 @@ class Articles extends Component {
                 </button>
               </>
             )}
+            {this.props.currentUser && (
+              <button onClick={this.handlePostArticleClick}>
+                Post An Article
+              </button>
+            )}
+            {this.state.showPostArticle && (
+              <PostArticle
+                username={this.props.currentUser}
+                handlePostArticleClick={this.handlePostArticleClick}
+              />
+            )}
             {this.state.articles.map(article => {
               return (
                 <div className="article-link" key={article.article_id}>
@@ -68,6 +80,12 @@ class Articles extends Component {
     fetchArticles({ sort_by: param, topic: this.props.currentTopic }).then(
       data => this.setState({ articles: data }),
     );
+  };
+
+  handlePostArticleClick = () => {
+    this.setState(prevState => {
+      return { showPostArticle: !prevState.showPostArticle };
+    });
   };
 
   componentDidMount() {

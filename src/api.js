@@ -47,3 +47,8 @@ export const deleteComment = comment_id => {
   const url = baseURL + '/comments/' + comment_id;
   return Axios.delete(url, { comment_id }).then(({ data }) => data);
 };
+
+export const postArticle = articleObject => {
+  const url = baseURL + '/articles';
+  return Axios.post(url, articleObject);
+};
