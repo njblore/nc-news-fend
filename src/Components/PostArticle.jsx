@@ -71,7 +71,7 @@ class PostArticle extends Component {
     this.setState(() => {
       return input === 'title'
         ? { title: value, topicError: false }
-        : { body: value, topicError: fals };
+        : { body: value, topicError: false };
     });
   };
 
@@ -96,20 +96,27 @@ class PostArticle extends Component {
       topic,
     };
 
-    this.state.currentlyChecked === 'other' &&
-      postTopic(this.state.topic)
-        .then(res => {
-          postArticle(articleObject)
-            .then(response => {
-              navigate(`/articles/${response.data.article.article_id}`);
-            })
-            .catch(err => {
-              this.setState({ postError: true });
-            });
-        })
-        .catch(err => {
-          this.setState({ topicError: true });
-        });
+    this.state.currentlyChecked === 'other'
+      ? postTopic(this.state.topic)
+          .then(res => {
+            postArticle(articleObject)
+              .then(response => {
+                navigate(`/articles/${response.data.article.article_id}`);
+              })
+              .catch(err => {
+                this.setState({ postError: true });
+              });
+          })
+          .catch(err => {
+            this.setState({ topicError: true });
+          })
+      : postArticle(articleObject)
+          .then(response => {
+            navigate(`/articles/${response.data.article.article_id}`);
+          })
+          .catch(err => {
+            this.setState({ postError: true });
+          });
   };
 
   componentDidMount() {
