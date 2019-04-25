@@ -13,30 +13,35 @@ class SingleArticle extends Component {
   };
   render() {
     return (
-      <div>
+      <div className="single-article">
         {this.state.article && (
           <div>
-            <main className="single-article">
-              <header className="article-header">
-                <h1>{this.state.article.title}</h1>
+            <header className="single-article-header">
+              <h1>{this.state.article.title}</h1>
+            </header>
+            <main>
+              <div className="single-article-subtitle">
                 <h3>{this.state.article.author}</h3>
                 <h3>{this.state.article.topic}</h3>
-                <h3>
-                  {this.state.article.votes + this.state.currentArticleVotes}
-                </h3>
-                {this.props.currentUser && (
-                  <VoteButtons
-                    handleArticleVote={this.handleArticleVote}
-                    currentArticleVotes={this.state.currentArticleVotes}
-                  />
-                )}
-                {this.state.votingError && (
-                  <p>
-                    Oh no! Something went wrong with your vote, please try again
-                    soon!
-                  </p>
-                )}
-              </header>
+                <div className="single-article-votes">
+                  <h3>
+                    {this.state.article.votes + this.state.currentArticleVotes}
+                  </h3>
+                  {this.props.currentUser && (
+                    <VoteButtons
+                      handleArticleVote={this.handleArticleVote}
+                      currentArticleVotes={this.state.currentArticleVotes}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {this.state.votingError && (
+                <p>
+                  Oh no! Something went wrong with your vote, please try again
+                  soon!
+                </p>
+              )}
               <p>{this.state.article.body}</p>
             </main>
             <ArticleComments

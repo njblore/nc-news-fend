@@ -30,9 +30,16 @@ class Articles extends Component {
         )}
         {this.state.articles && (
           <div>
-            <button onClick={this.toggleSortBy}>Sort By:</button>
+            <div className="options-buttons">
+              <button onClick={this.toggleSortBy}>Sort By:</button>
+              {this.props.currentUser && (
+                <button onClick={this.handlePostArticleClick}>
+                  Post An Article
+                </button>
+              )}
+            </div>
             {this.state.showSortBy && (
-              <>
+              <div className="sort-buttons">
                 <button onClick={() => this.fetchSortedArticles('created_at')}>
                   Date
                 </button>
@@ -48,12 +55,7 @@ class Articles extends Component {
                 >
                   Votes
                 </button>
-              </>
-            )}
-            {this.props.currentUser && (
-              <button onClick={this.handlePostArticleClick}>
-                Post An Article
-              </button>
+              </div>
             )}
             {this.props.currentUser && this.state.showPostArticle && (
               <PostArticle

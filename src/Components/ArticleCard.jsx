@@ -9,18 +9,25 @@ const ArticleCard = props => {
           to={`/articles/${props.article.article_id.toString()}`}
           className="link"
         >
-          <h2>{props.article.title} </h2>
+          <h2 className="article-title no-margin">
+            {props.article.title
+              .split(' ')
+              .slice(0, 7)
+              .join(' ') + '...'}
+          </h2>
         </Link>
-        <Link to={`/users/${props.article.author}`} className="link">
-          <h3>{props.article.author} </h3>
-        </Link>
-        <h3>{props.article.topic} </h3>
-        <h3>{props.article.votes}</h3>
+        <div className="article-header-subtitle">
+          <Link to={`/users/${props.article.author}`} className="link">
+            <h3 className="no-margin">{props.article.author} </h3>
+          </Link>
+          <h3 className="no-margin">{props.article.topic} </h3>
+          <h3 className="no-margin">{props.article.votes}</h3>
+        </div>
       </header>
-      <p>
+      <p className="no-margin preview-body">
         {props.article.body
           .split(' ')
-          .slice(0, 20)
+          .slice(0, 10)
           .join(' ') + '...'}
       </p>
     </div>
