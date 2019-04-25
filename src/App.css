@@ -142,3 +142,14 @@ textarea {
 .delete-button {
   color: red;
 }
+
+.warning-popup {
+  width: 60vw;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  background: #f0f0f0;
+  border: 2pt solid black;
+}

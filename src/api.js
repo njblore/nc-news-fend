@@ -57,3 +57,8 @@ export const postTopic = topic => {
   const url = baseURL + '/topics';
   return Axios.post(url, { slug: topic });
 };
+
+export const deleteArticle = article_id => {
+  const url = baseURL + '/articles/' + article_id;
+  return Axios.delete(url);
+};

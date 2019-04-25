@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import ArticleCard from './ArticleCard';
-
-import { fetchArticles } from '../api';
-
+import { fetchArticles, deleteArticle } from '../api';
 import DeleteButton from './DeleteButton';
 import PostArticle from './PostArticle';
+import DeleteWarning from './DeleteWarning';
+import { navigate } from '@reach/router/lib/history';
 
 class Articles extends Component {
-  state = { articles: null, showSortBy: false, showPostArticle: false };
+  state = {
+    articles: null,
+    showSortBy: false,
+    showPostArticle: false,
+    deleteWarning: false,
+    articleToDelete: null,
+  };
   render() {
     return (
       <div className="articles-list">
@@ -16,7 +22,12 @@ class Articles extends Component {
         ) : (
           <h1>{this.props.currentTopic}</h1>
         )}
-
+        {this.state.deleteWarning && (
+          <DeleteWarning
+            handleDelete={this.handleDelete}
+            confirmDeleteArticle={this.confirmDeleteArticle}
+          />
+        )}
         {this.state.articles && (
           <div>
             <button onClick={this.toggleSortBy}>Sort By:</button>
@@ -59,7 +70,10 @@ class Articles extends Component {
 
                   {this.props.currentUser &&
                     this.props.currentUser === article.author && (
-                      <DeleteButton />
+                      <DeleteButton
+                        handleDelete={this.handleDelete}
+                        article_id={article.article_id}
+                      />
                     )}
                 </div>
               );
@@ -86,6 +100,28 @@ class Articles extends Component {
     this.setState(prevState => {
       return { showPostArticle: !prevState.showPostArticle };
     });
+  };
+
+  handleDelete = article_id => {
+    this.setState(prevState => {
+      return {
+        deleteWarning: !prevState.deleteWarning,
+        articleToDelete: article_id || null,
+      };
+    });
+  };
+
+  confirmDeleteArticle = () => {
+    const filteredArticles = this.state.articles.filter(
+      article => article.article_id !== this.state.articleToDelete,
+    );
+    deleteArticle(this.state.articleToDelete)
+      .then(() => {
+        this.setState({ articles: filteredArticles, deleteWarning: false });
+      })
+      .catch(err => {
+        navigate('/error');
+      });
   };
 
   componentDidMount() {
