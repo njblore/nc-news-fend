@@ -4,6 +4,7 @@ import ArticleCard from './ArticleCard';
 import { Link } from '@reach/router';
 import VoteButtons from './VoteButtons';
 import DeleteButton from './DeleteButton';
+import { navigate } from '@reach/router/lib/history';
 
 class User extends Component {
   state = { user: null, articles: null };
@@ -50,9 +51,14 @@ class User extends Component {
   }
 
   componentDidMount() {
-    fetchUser(this.props.username).then(data => {
-      this.setState({ user: data });
-    });
+    fetchUser(this.props.username)
+      .then(data => {
+        this.setState({ user: data });
+      })
+      .catch(err => {
+        const msg = err.response.data.msg;
+        navigate('/Error', { replace: true, state: { msg } });
+      });
     fetchArticles({ author: this.props.username }).then(data =>
       this.setState({ articles: data }),
     );
