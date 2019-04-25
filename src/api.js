@@ -55,5 +55,5 @@ export const postArticle = articleObject => {
 
 export const postTopic = topic => {
   const url = baseURL + '/topics';
-  return Axios.post(url, { topic });
+  return Axios.post(url, { slug: topic });
 };

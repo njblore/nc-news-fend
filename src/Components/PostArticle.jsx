@@ -53,6 +53,7 @@ class PostArticle extends Component {
                 onChange={this.handleOtherTopic}
               />
             )}
+            {this.state.topicError && <p>Topic Already Exists!</p>}
           </div>
           Body:
           <input
@@ -68,16 +69,18 @@ class PostArticle extends Component {
 
   handleTyping = (value, input) => {
     this.setState(() => {
-      return input === 'title' ? { title: value } : { body: value };
+      return input === 'title'
+        ? { title: value, topicError: false }
+        : { body: value, topicError: fals };
     });
   };
 
   handleRadioClick = e => {
-    this.setState({ currentlyChecked: e.target.value });
+    this.setState({ currentlyChecked: e.target.value, topicError: false });
   };
 
   handleOtherTopic = e => {
-    this.setState({ topic: e.target.value });
+    this.setState({ topic: e.target.value, topicError: false });
   };
 
   handleSubmit = e => {
@@ -95,16 +98,18 @@ class PostArticle extends Component {
 
     this.state.currentlyChecked === 'other' &&
       postTopic(this.state.topic)
-        .then(res => console.log(res))
-        .catch(err => console.log(err.response));
-
-    // postArticle(articleObject)
-    //   .then(response => {
-    //     navigate(`/articles/${response.data.article.article_id}`);
-    //   })
-    //   .catch(err => {
-    //     this.setState({ postError: true });
-    //   });
+        .then(res => {
+          postArticle(articleObject)
+            .then(response => {
+              navigate(`/articles/${response.data.article.article_id}`);
+            })
+            .catch(err => {
+              this.setState({ postError: true });
+            });
+        })
+        .catch(err => {
+          this.setState({ topicError: true });
+        });
   };
 
   componentDidMount() {
