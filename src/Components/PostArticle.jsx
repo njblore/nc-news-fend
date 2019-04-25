@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchTopics, postArticle } from '../api';
+import { fetchTopics, postArticle, postTopic } from '../api';
 import { navigate } from '@reach/router';
 
 class PostArticle extends Component {
@@ -47,7 +47,11 @@ class PostArticle extends Component {
               checked={this.state.currentlyChecked === 'other'}
             />
             {this.state.currentlyChecked === 'other' && (
-              <input type="text" name="other" />
+              <input
+                type="text"
+                name="other"
+                onChange={this.handleOtherTopic}
+              />
             )}
           </div>
           Body:
@@ -63,7 +67,6 @@ class PostArticle extends Component {
   }
 
   handleTyping = (value, input) => {
-    console.log(value);
     this.setState(() => {
       return input === 'title' ? { title: value } : { body: value };
     });
@@ -71,6 +74,10 @@ class PostArticle extends Component {
 
   handleRadioClick = e => {
     this.setState({ currentlyChecked: e.target.value });
+  };
+
+  handleOtherTopic = e => {
+    this.setState({ topic: e.target.value });
   };
 
   handleSubmit = e => {
@@ -85,13 +92,19 @@ class PostArticle extends Component {
       title: this.state.title,
       topic,
     };
-    postArticle(articleObject)
-      .then(response => {
-        navigate(`/articles/${response.data.article.article_id}`);
-      })
-      .catch(err => {
-        this.setState({ postError: true });
-      });
+
+    this.state.currentlyChecked === 'other' &&
+      postTopic(this.state.topic)
+        .then(res => console.log(res))
+        .catch(err => console.log(err.response));
+
+    // postArticle(articleObject)
+    //   .then(response => {
+    //     navigate(`/articles/${response.data.article.article_id}`);
+    //   })
+    //   .catch(err => {
+    //     this.setState({ postError: true });
+    //   });
   };
 
   componentDidMount() {

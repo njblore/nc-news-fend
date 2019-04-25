@@ -11,8 +11,22 @@
   align-items: center;
 }
 
+.article-preview-header {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .articles-list {
   margin-top: 5vh;
+}
+
+.article-preview {
+  width: 80vw;
+  margin: 2vh auto;
+  background: #efefef;
+  border-radius: 5px;
 }
 
 .single-article {

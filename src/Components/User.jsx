@@ -29,7 +29,7 @@ class User extends Component {
             {this.state.articles &&
               this.state.articles.map(article => {
                 return (
-                  <div className="article-link" key={article.article_id}>
+                  <div className="article-preview" key={article.article_id}>
                     {this.props.currentUser && <VoteButtons />}
                     <Link
                       to={`/${article.article_id.toString()}`}
