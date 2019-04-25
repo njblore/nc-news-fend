@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { fetchTopics, postArticle } from '../api';
+import { navigate } from '@reach/router';
 
 class PostArticle extends Component {
   state = {
@@ -8,6 +9,7 @@ class PostArticle extends Component {
     body: '',
     topic: '',
     currentlyChecked: null,
+    postError: false,
   };
   render() {
     return (
@@ -53,6 +55,7 @@ class PostArticle extends Component {
             onChange={e => this.handleTyping(e.target.value, 'body')}
             value={this.state.body}
           />
+          {this.state.postError && <p>Please fill out all fields!</p>}
           <button>Post Article</button>
         </form>
       </div>
@@ -82,7 +85,13 @@ class PostArticle extends Component {
       title: this.state.title,
       topic,
     };
-    postArticle(articleObject).then(data => console.log(data));
+    postArticle(articleObject)
+      .then(response => {
+        navigate(`/articles/${response.data.article.article_id}`);
+      })
+      .catch(err => {
+        this.setState({ postError: true });
+      });
   };
 
   componentDidMount() {
