@@ -3,6 +3,7 @@ import ArticleComments from './ArticleComments';
 import Axios from 'axios';
 import VoteButtons from './VoteButtons';
 import { updateArticleVotes } from '../api';
+import { navigate } from '@reach/router';
 
 class SingleArticle extends Component {
   state = {
@@ -68,7 +69,18 @@ class SingleArticle extends Component {
       `https://northcoders-news-server.herokuapp.com/api/articles/${
         this.props.article_id
       }`,
-    ).then(({ data }) => this.setState({ article: data.article }));
+    )
+      .then(({ data }) => this.setState({ article: data.article }))
+      .catch(err => {
+        const msg =
+          err.response.status === 404
+            ? err.response.data.msg
+            : 'Not A Valid Article';
+        navigate('/error', {
+          replace: true,
+          state: { msg },
+        });
+      });
   }
 }
 
