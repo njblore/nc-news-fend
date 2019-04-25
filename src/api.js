@@ -39,6 +39,7 @@ export const updateCommentVotes = (comment_id, vote) => {
 };
 
 export const postCommentToArticle = commentObject => {
+  console.log('comment object ->', commentObject);
   const url = baseURL + '/articles/' + commentObject.article_id + '/comments';
   return Axios.post(url, commentObject).then(({ data }) => data);
 };

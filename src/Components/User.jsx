@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { fetchUser, fetchArticles, deleteArticle } from '../api';
 import ArticleCard from './ArticleCard';
 import { Link } from '@reach/router';
-import VoteButtons from './VoteButtons';
 import DeleteButton from './DeleteButton';
 import { navigate } from '@reach/router/lib/history';
 import DeleteWarning from './DeleteWarning';
@@ -42,7 +41,6 @@ class User extends Component {
               this.state.articles.map(article => {
                 return (
                   <div className="article-preview" key={article.article_id}>
-                    {this.props.currentUser && <VoteButtons />}
                     <Link
                       to={`/${article.article_id.toString()}`}
                       className="link"
