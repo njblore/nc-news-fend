@@ -46,7 +46,11 @@ class App extends Component {
             path="/articles/:article_id"
             currentUser={this.state.currentUser}
           />
-          <User path="/users/:username" currentUser={this.state.currentUser} />
+          <User
+            path="/users/:username"
+            currentUser={this.state.currentUser}
+            currentTopic={this.state.currentTopic}
+          />
           <Error path="error" default />
         </Router>
       </div>
@@ -65,7 +69,9 @@ class App extends Component {
   };
 
   setTopic = topic => {
-    this.setState({ currentTopic: topic });
+    this.setState({ currentTopic: topic }, () => {
+      console.log(this.state.currentTopic);
+    });
   };
 
   toggleShowLogin = () => {

@@ -105,6 +105,15 @@ class User extends Component {
       this.setState({ articles: data }),
     );
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.currentTopic !== prevProps.currentTopic) {
+      fetchArticles({
+        author: this.props.username,
+        topic: this.props.currentTopic,
+      }).then(data => this.setState({ articles: data }));
+    }
+  }
 }
 
 export default User;
