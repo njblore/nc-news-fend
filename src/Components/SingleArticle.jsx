@@ -8,6 +8,7 @@ class SingleArticle extends Component {
   state = {
     article: null,
     currentArticleVotes: 0,
+    votingError: false,
   };
   render() {
     return (
@@ -28,6 +29,12 @@ class SingleArticle extends Component {
                     currentArticleVotes={this.state.currentArticleVotes}
                   />
                 )}
+                {this.state.votingError && (
+                  <p>
+                    Oh no! Something went wrong with your vote, please try again
+                    soon!
+                  </p>
+                )}
               </header>
               <p>{this.state.article.body}</p>
             </main>
@@ -42,11 +49,18 @@ class SingleArticle extends Component {
   }
 
   handleArticleVote = vote => {
-    updateArticleVotes(this.state.article.article_id, vote).then(data =>
-      this.setState(prevState => {
-        return { currentArticleVotes: prevState.currentArticleVotes + vote };
-      }),
-    );
+    updateArticleVotes(this.state.article.article_id, vote)
+      .then(() =>
+        this.setState(prevState => {
+          return {
+            currentArticleVotes: prevState.currentArticleVotes + vote,
+            votingError: false,
+          };
+        }),
+      )
+      .catch(() => {
+        this.setState({ votingError: true });
+      });
   };
 
   componentDidMount() {

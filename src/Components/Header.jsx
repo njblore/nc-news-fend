@@ -7,7 +7,7 @@ const Header = props => {
       <h1>Northcoders News</h1>
       <nav>
         <button onClick={props.clearTopic}>
-          <Link to="/" className="link">
+          <Link to="/articles" className="link">
             Articles
           </Link>
         </button>

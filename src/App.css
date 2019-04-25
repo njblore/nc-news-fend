@@ -6,6 +6,9 @@
 
 .article-header {
   display: flex;
+  width: 50%;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .articles-list {
@@ -85,6 +88,14 @@ textarea {
   border-radius: 5px;
   background: #f0f0f0;
   margin: 1vh 0;
+  width: 80vw;
+  display: flex;
+}
+
+.comment-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .upvote {

@@ -7,7 +7,8 @@ import Articles from './Components/Articles';
 import SingleArticle from './Components/SingleArticle';
 import Topics from './Components/Topics';
 import User from './Components/User';
-import { navigate } from '@reach/router/lib/history';
+import Error from './Components/Error';
+import { navigate } from '@reach/router/';
 
 class App extends Component {
   state = {
@@ -36,15 +37,16 @@ class App extends Component {
         )}
         <Router>
           <Articles
-            path="/"
+            path="/articles"
             currentTopic={this.state.currentTopic}
             currentUser={this.state.currentUser}
           />
           <SingleArticle
-            path="/:article_id"
+            path="/articles/:article_id"
             currentUser={this.state.currentUser}
           />
           <User path="/users/:username" currentUser={this.state.currentUser} />
+          <Error path="error" default />
         </Router>
       </div>
     );
@@ -75,7 +77,7 @@ class App extends Component {
     if (this.state.currentUser) {
       this.setState({ currentUser: null }, () => {
         localStorage.removeItem('currentUser');
-        navigate('/', { state: { loggedOut: true } });
+        navigate('/articles', { state: { loggedOut: true } });
       });
     }
   };

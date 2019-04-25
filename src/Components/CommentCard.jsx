@@ -16,20 +16,22 @@ class CommentCard extends Component {
             commentVote={this.state.commentVote}
           />
         )}
-        <header className="article-header">
-          <p>{this.props.comment.author}</p>
-          <p>Posted On: {postedAt.toDateString()}</p>
-          <p>{this.props.comment.votes + this.state.commentVote} Points</p>
-        </header>
-        <p>{this.props.comment.body}</p>
-        {this.props.currentUser &&
-          this.props.currentUser === this.props.comment.author && (
-            <DeleteButton
-              handleDelete={() =>
-                this.handleDelete(this.props.comment.comment_id)
-              }
-            />
-          )}
+        <main className="comment-body">
+          <header className="article-header">
+            <p>{this.props.comment.author}</p>
+            <p>Posted On: {postedAt.toDateString()}</p>
+            <p>{this.props.comment.votes + this.state.commentVote} Points</p>
+          </header>
+          <p>{this.props.comment.body}</p>
+          {this.props.currentUser &&
+            this.props.currentUser === this.props.comment.author && (
+              <DeleteButton
+                handleDelete={() =>
+                  this.handleDelete(this.props.comment.comment_id)
+                }
+              />
+            )}
+        </main>
       </div>
     );
   }

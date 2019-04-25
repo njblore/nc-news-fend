@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import CommentCard from './CommentCard';
 import { fetchComments } from '../api';
-import DeleteButton from './DeleteButton';
 import PostComment from './PostComment';
 
 class ArticleComments extends Component {
@@ -28,10 +27,6 @@ class ArticleComments extends Component {
                   comment={comment}
                   currentUser={this.props.currentUser}
                 />
-                {/* {this.props.currentUser &&
-                  this.props.currentUser === comment.author && (
-                    <DeleteButton handleDelete={this.handleDelete} />
-                  )} */}
               </div>
             );
           })}
