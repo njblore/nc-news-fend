@@ -16,6 +16,7 @@ class App extends Component {
     showTopics: false,
     showLogin: false,
     currentTopic: null,
+    deleteWarning: false,
   };
 
   render() {

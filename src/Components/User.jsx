@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
-import { fetchUser, fetchArticles } from '../api';
+import { fetchUser, fetchArticles, deleteArticle } from '../api';
 import ArticleCard from './ArticleCard';
 import { Link } from '@reach/router';
 import VoteButtons from './VoteButtons';
 import DeleteButton from './DeleteButton';
 import { navigate } from '@reach/router/lib/history';
+import DeleteWarning from './DeleteWarning';
 
 class User extends Component {
-  state = { user: null, articles: null };
+  state = {
+    user: null,
+    articles: null,
+    deleteWarning: false,
+    articleToDelete: null,
+  };
   render() {
     return (
       <div>
+        {this.state.deleteWarning && (
+          <DeleteWarning
+            confirmDeleteArticle={this.confirmDeleteArticle}
+            handleDelete={this.handleDelete}
+          />
+        )}
         {this.state.user && (
           <>
             {this.props.location.state ? (
@@ -39,7 +51,10 @@ class User extends Component {
                     </Link>
                     {this.props.currentUser &&
                       this.props.currentUser === article.author && (
-                        <DeleteButton />
+                        <DeleteButton
+                          handleDelete={this.handleDelete}
+                          article_id={article.article_id}
+                        />
                       )}
                   </div>
                 );
@@ -49,6 +64,33 @@ class User extends Component {
       </div>
     );
   }
+
+  handleDelete = article_id => {
+    console.log('handling delete');
+    this.setState(prevState => {
+      return {
+        deleteWarning: !prevState.deleteWarning,
+        articleToDelete: article_id || null,
+      };
+    });
+  };
+
+  confirmDeleteArticle = () => {
+    console.log('confirming delete');
+
+    const filteredArticles = this.state.articles.filter(
+      article => article.article_id !== this.state.articleToDelete,
+    );
+    deleteArticle(this.state.articleToDelete)
+      .then(() => {
+        console.log('deleted delete');
+
+        this.setState({ articles: filteredArticles, deleteWarning: false });
+      })
+      .catch(err => {
+        navigate('/error');
+      });
+  };
 
   componentDidMount() {
     fetchUser(this.props.username)
