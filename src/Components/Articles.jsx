@@ -46,7 +46,7 @@ class Articles extends Component {
             )}
             {this.state.showPostArticle && (
               <PostArticle
-                username={this.props.currentUser}
+                currentUser={this.props.currentUser}
                 handlePostArticleClick={this.handlePostArticleClick}
               />
             )}

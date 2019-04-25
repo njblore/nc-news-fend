@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchTopics } from '../api';
+import { fetchTopics, postArticle } from '../api';
 
 class PostArticle extends Component {
   state = {
@@ -13,7 +13,7 @@ class PostArticle extends Component {
     return (
       <div className="post-article">
         <button onClick={this.props.handlePostArticleClick}>Cancel</button>
-        <form className="article-form">
+        <form className="article-form" onSubmit={this.handleSubmit}>
           Title:
           <input
             onChange={e => this.handleTyping(e.target.value, 'title')}
@@ -55,7 +55,6 @@ class PostArticle extends Component {
           />
           <button>Post Article</button>
         </form>
-        <p>hello</p>
       </div>
     );
   }
@@ -69,6 +68,21 @@ class PostArticle extends Component {
 
   handleRadioClick = e => {
     this.setState({ currentlyChecked: e.target.value });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const topic =
+      this.state.currentlyChecked === 'other'
+        ? this.state.topic
+        : this.state.currentlyChecked;
+    const articleObject = {
+      body: this.state.body,
+      author: this.props.currentUser,
+      title: this.state.title,
+      topic,
+    };
+    postArticle(articleObject).then(data => console.log(data));
   };
 
   componentDidMount() {
