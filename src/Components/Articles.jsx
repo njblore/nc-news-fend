@@ -37,7 +37,9 @@ class Articles extends Component {
         {this.state.articles && (
           <div>
             <div className="options-buttons">
-              <button onClick={this.toggleSortBy}>Sort By:</button>
+              {!this.props.username && (
+                <button onClick={this.toggleSortBy}>Sort By:</button>
+              )}
               <div className="page-buttons">
                 <button
                   onClick={() => this.handlePageChange(-1)}
@@ -208,16 +210,11 @@ class Articles extends Component {
   componentDidMount() {
     if (this.props.articles) {
       const end = this.props.articles.length <= this.props.totalCount;
-      this.setState(
-        {
-          articles: this.props.articles,
-          totalCount: this.props.totalCount,
-          endOfArticles: end,
-        },
-        () => {
-          console.log(this.state);
-        },
-      );
+      this.setState({
+        articles: this.props.articles,
+        totalCount: this.props.totalCount,
+        endOfArticles: end,
+      });
     } else {
       fetchArticles({ p: this.state.page }).then(data =>
         this.setState({

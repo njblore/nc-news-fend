@@ -165,10 +165,23 @@ nav {
   display: flex;
 }
 
+.comment-votes {
+  flex-direction: column;
+  text-align: center;
+  font-size: 0.8em;
+  justify-content: flex-start;
+}
+
+.comment-header {
+  font-size: 1.1em;
+}
+
 .comment-body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  font-size: 0.7em;
+  margin: 1vh 3vw;
 }
 
 /* POPUP BOXES */
@@ -229,7 +242,7 @@ nav {
 .comment-box {
   height: 30vh;
   width: 80vw;
-  bottom: 5vh;
+  bottom: 30vh;
   justify-content: center;
 }
 

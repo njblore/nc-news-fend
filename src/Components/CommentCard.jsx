@@ -10,18 +10,20 @@ class CommentCard extends Component {
     return (
       this.state.showComment && (
         <div className="comment-card">
-          {this.props.currentUser && (
-            <VoteButtons
-              handleCommentVote={this.handleCommentVote}
-              comment_id={this.props.comment.comment_id}
-              commentVote={this.state.commentVote}
-            />
-          )}
+          <div className="comment-votes flex">
+            {this.props.currentUser && (
+              <VoteButtons
+                handleCommentVote={this.handleCommentVote}
+                comment_id={this.props.comment.comment_id}
+                commentVote={this.state.commentVote}
+              />
+            )}
+            <p>{this.props.comment.votes + this.state.commentVote} Points</p>
+          </div>
           <main className="comment-body">
-            <header className="article-header">
+            <header className="comment-header">
               <p>{this.props.comment.author}</p>
               <p>Posted On: {postedAt.toDateString()}</p>
-              <p>{this.props.comment.votes + this.state.commentVote} Points</p>
             </header>
             <p>{this.props.comment.body}</p>
             {this.props.currentUser &&
