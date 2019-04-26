@@ -23,7 +23,7 @@ class Articles extends Component {
     return (
       <div className="articles-list">
         {!this.props.currentTopic ? (
-          <h1>Latest Articles</h1>
+          !this.props.username && <h1>Latest Articles</h1>
         ) : (
           <h1>{this.props.currentTopic}</h1>
         )}
@@ -153,7 +153,6 @@ class Articles extends Component {
           return { page: prevState.page + direction };
         },
         () => {
-          console.log(this.props.username);
           fetchArticles({
             p: this.state.page * 10,
             sort_by: this.state.sort_by,
