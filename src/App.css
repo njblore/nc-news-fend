@@ -113,6 +113,10 @@ nav {
   font-size: 0.7em;
 }
 
+.page-buttons {
+  display: flex;
+}
+
 /* single article page */
 
 .single-article {

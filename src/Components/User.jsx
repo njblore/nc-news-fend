@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { fetchUser, fetchArticles, deleteArticle } from '../api';
 import ArticleCard from './ArticleCard';
-import { Link } from '@reach/router';
 import DeleteButton from './DeleteButton';
 import { navigate } from '@reach/router/lib/history';
 import DeleteWarning from './DeleteWarning';
@@ -110,7 +109,7 @@ class User extends Component {
         navigate('/Error', { replace: true, state: { msg } });
       });
     fetchArticles({ author: this.props.username }).then(data =>
-      this.setState({ articles: data }),
+      this.setState({ articles: data.articles }),
     );
   }
 
@@ -119,7 +118,7 @@ class User extends Component {
       fetchArticles({
         author: this.props.username,
         topic: this.props.currentTopic,
-      }).then(data => this.setState({ articles: data }));
+      }).then(data => this.setState({ articles: data.articles }));
     }
   }
 }

@@ -99,6 +99,20 @@ class Articles extends Component {
                 </div>
               );
             })}
+            <div className="page-buttons">
+              <button
+                onClick={() => this.handlePageChange(-1)}
+                disabled={this.state.page === 0}
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => this.handlePageChange(1)}
+                disabled={this.state.endOfArticles}
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -129,6 +143,9 @@ class Articles extends Component {
   };
 
   handlePageChange = direction => {
+    if (direction === -1) {
+      this.setState({ endOfArticles: false });
+    }
     this.state.page + direction >= 0 &&
       this.setState(
         prevState => {
