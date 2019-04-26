@@ -318,12 +318,17 @@ textarea {
 .vote-buttons {
   display: flex;
   flex-direction: column;
+  background: whitesmoke;
+  height: 100%;
+  justify-content: space-between;
 }
 
 .bad-button {
   color: red;
+  height: 100%;
 }
 
 .good-button {
   color: forestgreen;
+  height: 100%;
 }

@@ -5,8 +5,6 @@ const VoteButtons = props => {
     ? props.handleArticleVote
     : props.handleCommentVote;
 
-  console.log(voteFunction);
-
   return (
     <div className="vote-buttons">
       <button
@@ -16,6 +14,7 @@ const VoteButtons = props => {
       >
         ⬆
       </button>
+      {props.votes && <p>{props.votes + props.votesToAdd}</p>}
       <button
         className="bad-button"
         onClick={() => voteFunction(-1, props.comment_id, props.article_id)}
