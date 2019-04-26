@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from '@reach/router';
 
 const Header = props => {
+  console.log(props);
   return (
     <div className="site-header">
       <h1>Northcoders News</h1>

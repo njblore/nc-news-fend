@@ -102,7 +102,7 @@ class Articles extends Component {
                 </div>
               );
             })}
-            <div className="page-buttons">
+            <div className="flex">
               <button
                 onClick={() => this.handlePageChange(-1)}
                 disabled={this.state.page === 0}

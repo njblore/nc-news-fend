@@ -13,7 +13,7 @@ class Topics extends Component {
                 <button
                   key={topic.slug}
                   onClick={e => this.props.setTopic(topic.slug)}
-                  className="nav-button"
+                  className="nav-button topic-button"
                 >
                   {topic.slug}
                 </button>

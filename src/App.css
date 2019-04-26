@@ -45,6 +45,11 @@ nav {
   border: 2pt solid red;
   border-top: none;
   box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.topic-button {
+  padding: 0;
 }
 
 /* ARTICLES PAGE */
@@ -119,6 +124,7 @@ nav {
 
 .page-buttons {
   display: flex;
+  justify-content: space-between;
 }
 
 /* single article page */
@@ -227,8 +233,8 @@ nav {
 
 .post-article {
   height: 60vh;
-  width: 60vw;
-  left: 20vw;
+  width: 80vw;
+  left: 10vw;
   top: 20vh;
   justify-content: space-around;
 }

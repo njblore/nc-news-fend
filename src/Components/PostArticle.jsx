@@ -14,7 +14,6 @@ class PostArticle extends Component {
   render() {
     return (
       <div className="post-article popup">
-        <button onClick={this.props.handlePostArticleClick}>Cancel</button>
         <form className="article-form" onSubmit={this.handleSubmit}>
           Title:
           <input
@@ -61,7 +60,15 @@ class PostArticle extends Component {
             value={this.state.body}
           />
           {this.state.postError && <p>Please fill out all fields!</p>}
-          <button>Post Article</button>
+          <div className="page-buttons">
+            <button className="good-button">Post Article</button>
+            <button
+              onClick={this.props.handlePostArticleClick}
+              className="bad-button"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     );
