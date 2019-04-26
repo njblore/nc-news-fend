@@ -19,11 +19,9 @@ const Header = props => {
         {props.currentUser ? (
           <>
             {props.currentUser !== 'Guest' && (
-              <button className="nav-button">
-                <Link to={`/users/${props.currentUser}`} className="link">
-                  My Profile
-                </Link>
-              </button>
+              <Link to={`/users/${props.currentUser}`} className="link">
+                <button className="nav-button">My Profile</button>
+              </Link>
             )}
             <button onClick={props.toggleLoggedIn} className="nav-button">
               Log Out

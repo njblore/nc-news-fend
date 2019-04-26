@@ -29,7 +29,6 @@ class PostComment extends Component {
   };
 
   handleSubmit = e => {
-    console.log('this.props.currentUser ->', this.props.currentUser);
     e.preventDefault();
     postCommentToArticle({
       username: this.props.currentUser,
@@ -40,6 +39,7 @@ class PostComment extends Component {
         console.log('response from postComentToArticle ->', data);
         data.comment.author = data.comment.created_by;
         this.props.updateComments(data.comment);
+        this.props.toggleShowPostComment();
       })
       .catch(err => console.log(err.response));
     this.setState({ commentValue: '' });
