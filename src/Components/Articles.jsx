@@ -17,6 +17,7 @@ class Articles extends Component {
     sortBy: '',
     endOfArticles: false,
     totalCount: null,
+    loggedInUser: null,
   };
   render() {
     return (
@@ -152,23 +153,26 @@ class Articles extends Component {
           return { page: prevState.page + direction };
         },
         () => {
+          console.log(this.props.username);
           fetchArticles({
             p: this.state.page * 10,
             sort_by: this.state.sort_by,
             topic: this.props.currentTopic,
-          }).then(data => {
-            console.log(this.state.page, this.state.totalCount);
-            if (
-              (this.state.page + 1) * 10 >=
-              Math.ceil((this.state.totalCount + 1) / 10) * 10
-            ) {
-              this.setState({ endOfArticles: true });
-            }
-            this.setState({
-              articles: data.articles,
-              totalCount: data.total_count,
-            });
-          });
+            author: this.props.username,
+          })
+            .then(data => {
+              if (
+                (this.state.page + 1) * 10 >=
+                Math.ceil((this.state.totalCount + 1) / 10) * 10
+              ) {
+                this.setState({ endOfArticles: true });
+              }
+              this.setState({
+                articles: data.articles,
+                totalCount: data.total_count,
+              });
+            })
+            .catch(err => console.log(err.response));
         },
       );
   };
@@ -203,14 +207,18 @@ class Articles extends Component {
   };
 
   componentDidMount() {
-    fetchArticles({ p: this.state.page }).then(data =>
-      this.setState({
-        articles: data.articles,
-        totalCount: data.total_count,
-        page: 0,
-        endOfArticles: false,
-      }),
-    );
+    if (this.props.articles) {
+      this.setState({ articles: this.props.articles });
+    } else {
+      fetchArticles({ p: this.state.page }).then(data =>
+        this.setState({
+          articles: data.articles,
+          totalCount: data.total_count,
+          page: 0,
+          endOfArticles: false,
+        }),
+      );
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {

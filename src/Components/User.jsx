@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { fetchUser, fetchArticles, deleteArticle } from '../api';
 import ArticleCard from './ArticleCard';
 import DeleteButton from './DeleteButton';
+import Articles from './Articles';
 import { navigate } from '@reach/router/lib/history';
 import DeleteWarning from './DeleteWarning';
 
@@ -51,7 +52,7 @@ class User extends Component {
               </>
             )}
 
-            {this.state.articles &&
+            {/* {this.state.articles &&
               this.state.articles.map(article => {
                 return (
                   <div className="article-preview" key={article.article_id}>
@@ -65,7 +66,13 @@ class User extends Component {
                       )}
                   </div>
                 );
-              })}
+              })} */}
+            {this.state.articles && (
+              <Articles
+                username={this.state.user.username}
+                articles={this.state.articles}
+              />
+            )}
           </>
         )}
       </div>
