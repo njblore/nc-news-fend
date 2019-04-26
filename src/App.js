@@ -9,6 +9,7 @@ import Topics from './Components/Topics';
 import User from './Components/User';
 import Error from './Components/Error';
 import { navigate } from '@reach/router/';
+import { updateArticleVotes } from './api';
 
 class App extends Component {
   state = {
@@ -41,6 +42,7 @@ class App extends Component {
             path="/articles"
             currentTopic={this.state.currentTopic}
             currentUser={this.state.currentUser}
+            handleArticleVote={this.handleArticleVote}
           />
           <SingleArticle
             path="/articles/:article_id"
@@ -85,6 +87,14 @@ class App extends Component {
         navigate('/articles', { state: { loggedOut: true } });
       });
     }
+  };
+
+  handleArticleVote = (vote, _, article_id) => {
+    updateArticleVotes(article_id, vote)
+      .then(data => console.log(data))
+      .catch(() => {
+        this.setState({ votingError: true });
+      });
   };
 
   setCurrentUser = user => {

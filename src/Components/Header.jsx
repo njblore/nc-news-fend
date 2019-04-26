@@ -1,27 +1,33 @@
 import React from 'react';
-import { Link } from '@reach/router';
+import { navigate } from '@reach/router';
 
 const Header = props => {
-  console.log(props);
   return (
     <div className="site-header">
       <h1>Northcoders News</h1>
       {props.currentUser && <p>Logged in as: {props.currentUser}</p>}
       <nav>
-        <Link to="/articles" className="link">
-          <button onClick={props.clearTopic} className="nav-button">
-            Articles
-          </button>
-        </Link>
+        <button
+          onClick={() => {
+            navigate('/articles');
+          }}
+          className="nav-button"
+        >
+          Articles
+        </button>
+
         <button onClick={props.toggleTopics} className="nav-button">
           Topics
         </button>
         {props.currentUser ? (
           <>
             {props.currentUser !== 'Guest' && (
-              <Link to={`/users/${props.currentUser}`} className="link">
-                <button className="nav-button">My Profile</button>
-              </Link>
+              <button
+                className="nav-button"
+                onClick={() => navigate(`/users/${props.currentUser}`)}
+              >
+                My Profile
+              </button>
             )}
             <button onClick={props.toggleLoggedIn} className="nav-button">
               Log Out

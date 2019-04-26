@@ -18,13 +18,14 @@ const ArticleCard = props => {
         </Link>
         <div className="article-header-subtitle">
           <Link to={`/users/${props.article.author}`} className="link">
-            <h3 className="no-margin">{props.article.author} </h3>
+            <h3 className="no-margin article-author">
+              - {props.article.author}
+            </h3>
           </Link>
-          <h3 className="no-margin">{props.article.topic} </h3>
-          <h3 className="no-margin">{props.article.votes}</h3>
+          <h3 className="no-margin">[{props.article.topic}] </h3>
         </div>
       </header>
-      <p className="no-margin preview-body">
+      <p className="preview-body">
         {props.article.body
           .split(' ')
           .slice(0, 10)

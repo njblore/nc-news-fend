@@ -5,6 +5,7 @@ import DeleteButton from './DeleteButton';
 import PostArticle from './PostArticle';
 import DeleteWarning from './DeleteWarning';
 import { navigate } from '@reach/router/lib/history';
+import VoteButtons from './VoteButtons';
 
 class Articles extends Component {
   state = {
@@ -88,17 +89,27 @@ class Articles extends Component {
             {this.state.articles.map(article => {
               return (
                 <div className="article-preview" key={article.article_id}>
-                  {/* {this.props.currentUser && <VoteButtons />} */}
+                  <div className="article-sub-preview">
+                    <div className="article-votes">
+                      {this.props.currentUser && (
+                        <VoteButtons
+                          article_id={article.article_id}
+                          handleArticleVote={this.props.handleArticleVote}
+                        />
+                      )}
+                      <p>{article.votes}</p>
+                    </div>
 
-                  <ArticleCard article={article} />
+                    <ArticleCard article={article} />
 
-                  {this.props.currentUser &&
-                    this.props.currentUser === article.author && (
-                      <DeleteButton
-                        handleDelete={this.handleDelete}
-                        article_id={article.article_id}
-                      />
-                    )}
+                    {this.props.currentUser &&
+                      this.props.currentUser === article.author && (
+                        <DeleteButton
+                          handleDelete={this.handleDelete}
+                          article_id={article.article_id}
+                        />
+                      )}
+                  </div>
                 </div>
               );
             })}

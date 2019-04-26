@@ -83,6 +83,16 @@ nav {
   justify-content: space-around;
 }
 
+.article-votes {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.article-sub-preview {
+  display: flex;
+}
+
 .article-preview-header {
   display: flex;
   flex-direction: column;
@@ -99,10 +109,23 @@ nav {
   font-size: 0.6em;
 }
 
+.article-author {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.article-author:hover {
+  color: grey;
+}
+
 .article-title {
   font-size: 1em;
   margin: 0;
   text-align: center;
+}
+
+.article-title:hover {
+  color: grey;
 }
 
 .article-header {
@@ -122,6 +145,7 @@ nav {
 
 .preview-body {
   font-size: 0.7em;
+  margin: 0 2vw;
 }
 
 .page-buttons {
