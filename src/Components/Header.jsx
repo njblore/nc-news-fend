@@ -8,11 +8,11 @@ const Header = props => {
       <h1>Northcoders News</h1>
       {props.currentUser && <p>Logged in as: {props.currentUser}</p>}
       <nav>
-        <button onClick={props.clearTopic} className="nav-button">
-          <Link to="/articles" className="link">
+        <Link to="/articles" className="link">
+          <button onClick={props.clearTopic} className="nav-button">
             Articles
-          </Link>
-        </button>
+          </button>
+        </Link>
         <button onClick={props.toggleTopics} className="nav-button">
           Topics
         </button>
