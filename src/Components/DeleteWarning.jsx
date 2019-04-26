@@ -2,7 +2,7 @@ import React from 'react';
 
 const DeleteWarning = props => {
   return (
-    <div className="warning-popup">
+    <div className="warning-popup popup">
       <h1 className="warning-text">
         Warning! This will irreversibly delete your article, are you sure?
       </h1>

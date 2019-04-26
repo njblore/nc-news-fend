@@ -26,6 +26,7 @@ class ArticleComments extends Component {
               article_id={this.props.article_id}
               currentUser={this.props.currentUser}
               updateComments={this.updateComments}
+              toggleShowPostComment={this.toggleShowPostComment}
             />
           )}
           {this.state.comments &&

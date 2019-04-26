@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { fetchUser, fetchArticles, deleteArticle } from '../api';
-import ArticleCard from './ArticleCard';
-import DeleteButton from './DeleteButton';
+import {
+  fetchUser,
+  fetchArticles,
+  deleteArticle,
+  editUserProfile,
+} from '../api';
 import Articles from './Articles';
 import { navigate } from '@reach/router/lib/history';
 import DeleteWarning from './DeleteWarning';
@@ -12,6 +15,9 @@ class User extends Component {
     articles: null,
     deleteWarning: false,
     articleToDelete: null,
+    showEditProfile: false,
+    newName: '',
+    newAvatar: '',
   };
   render() {
     return (
@@ -28,6 +34,42 @@ class User extends Component {
               this.props.location.state.fromLogin) ||
             this.props.currentUser === this.state.user.username ? (
               <>
+                {this.state.showEditProfile && (
+                  <div className="profile-popup popup">
+                    <label className="profile-label flex">
+                      Change My Name:
+                      <input
+                        value={this.state.newName}
+                        onChange={e => {
+                          this.handleTyping(e.target.value, 'name');
+                        }}
+                      />
+                    </label>
+                    <label className="profile-label flex">
+                      Change My Profile Pic:{' '}
+                      <input
+                        value={this.state.newAvatar}
+                        onChange={e => {
+                          this.handleTyping(e.target.value, 'avatar');
+                        }}
+                      />
+                    </label>
+                    <div className="flex">
+                      <button
+                        onClick={this.handleSubmit}
+                        className="good-button"
+                      >
+                        Done
+                      </button>
+                      <button
+                        onClick={this.toggleShowEdit}
+                        className="bad-button"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
                 <h2 className="user-heading">
                   Welcome Back {this.state.user.name}!
                 </h2>
@@ -36,6 +78,7 @@ class User extends Component {
                   className="profile-pic"
                   alt="user avatar"
                 />
+                <button onClick={this.toggleShowEdit}>Edit My Profile</button>
                 <h3 className="user-heading"> My Articles: </h3>
               </>
             ) : (
@@ -51,22 +94,6 @@ class User extends Component {
                 </h3>
               </>
             )}
-
-            {/* {this.state.articles &&
-              this.state.articles.map(article => {
-                return (
-                  <div className="article-preview" key={article.article_id}>
-                    <ArticleCard article={article} />
-                    {this.props.currentUser &&
-                      this.props.currentUser === article.author && (
-                        <DeleteButton
-                          handleDelete={this.handleDelete}
-                          article_id={article.article_id}
-                        />
-                      )}
-                  </div>
-                );
-              })} */}
             {this.state.articles && (
               <Articles
                 username={this.state.user.username}
@@ -104,6 +131,40 @@ class User extends Component {
       .catch(err => {
         navigate('/error');
       });
+  };
+
+  toggleShowEdit = () => {
+    this.setState(prevState => {
+      return {
+        showEditProfile: !prevState.showEditProfile,
+        newName: '',
+        newAvatar: '',
+      };
+    });
+  };
+
+  handleTyping = (val, name) => {
+    if (name === 'name') {
+      this.setState({ newName: val });
+    } else if (name === 'avatar') {
+      this.setState({ newAvatar: val });
+    }
+  };
+
+  handleSubmit = () => {
+    console.log('submitting');
+    let newUser = {};
+    if (this.state.newAvatar) {
+      newUser.avatar_url = this.state.newAvatar;
+    }
+    if (this.state.newName) {
+      newUser.name = this.state.newName;
+    }
+    console.log(newUser);
+    editUserProfile(newUser, this.state.user.username).then(data => {
+      this.toggleShowEdit();
+      this.setState({ user: data.user });
+    });
   };
 
   componentDidMount() {

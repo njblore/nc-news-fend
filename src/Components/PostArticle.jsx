@@ -13,7 +13,7 @@ class PostArticle extends Component {
   };
   render() {
     return (
-      <div className="post-article">
+      <div className="post-article popup">
         <button onClick={this.props.handlePostArticleClick}>Cancel</button>
         <form className="article-form" onSubmit={this.handleSubmit}>
           Title:

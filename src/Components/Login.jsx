@@ -12,11 +12,11 @@ class Login extends Component {
   };
   render() {
     return (
-      <div className="login-box">
+      <div className="login-box popup">
         <button onClick={this.props.toggleShowLogin} className="bad-button">
           Close
         </button>
-        <form onSubmit={this.handleSubmit} className="login-bar">
+        <form onSubmit={this.handleSubmit} className="flex">
           <input
             onChange={e => this.handleTyping(e.target.value, 'username')}
           />
@@ -25,7 +25,7 @@ class Login extends Component {
         </form>
         <button onClick={this.handleSignup}>Sign Up!</button>
         {this.state.showSignup && (
-          <div className="signup-popup">
+          <div className="signup-popup popup">
             <button onClick={this.handleSignup} className="bad-button">
               Cancel
             </button>

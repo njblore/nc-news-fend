@@ -5,14 +5,20 @@ class PostComment extends Component {
   state = { commentValue: '' };
   render() {
     return (
-      <div className="comment-box">
+      <div className="comment-box popup">
         <form onSubmit={this.handleSubmit}>
           <textarea
-            rows="9"
+            rows=""
             value={this.state.commentValue}
             onChange={this.handleTyping}
           />
           <button>Post</button>
+          <button
+            onClick={this.props.toggleShowPostComment}
+            className="bad-button"
+          >
+            Cancel
+          </button>
         </form>
       </div>
     );

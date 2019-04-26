@@ -68,3 +68,8 @@ export const postNewUser = userObject => {
   const url = baseURL + '/users';
   return Axios.post(url, userObject);
 };
+
+export const editUserProfile = (newUserObject, username) => {
+  const url = baseURL + '/users/' + username;
+  return Axios.patch(url, newUserObject).then(({ data }) => data);
+};
