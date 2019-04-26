@@ -63,3 +63,8 @@ export const deleteArticle = article_id => {
   const url = baseURL + '/articles/' + article_id;
   return Axios.delete(url);
 };
+
+export const postNewUser = userObject => {
+  const url = baseURL + '/users';
+  return Axios.post(url, userObject);
+};

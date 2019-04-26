@@ -29,12 +29,21 @@ class User extends Component {
             this.props.currentUser === this.state.user.username ? (
               <>
                 <h2>Welcome Back {this.state.user.name}!</h2>
-                <img src={this.state.user.avatar_url} alt="user avatar" />
+                <img
+                  src={this.state.user.avatar_url}
+                  className="profile-pic"
+                  alt="user avatar"
+                />
                 <h3> My Articles: </h3>
               </>
             ) : (
               <>
                 <h2>{this.state.user.name}</h2>
+                <img
+                  src={this.state.user.avatar_url}
+                  alt="user avatar"
+                  className="profile-pic"
+                />
                 <h3>Articles By {this.state.user.name}:</h3>
               </>
             )}
