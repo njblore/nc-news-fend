@@ -4,7 +4,7 @@ const DeleteButton = props => {
   return (
     <div>
       <button
-        className="delete-button"
+        className="bad-button"
         onClick={() => props.handleDelete(props.article_id)}
       >
         Delete

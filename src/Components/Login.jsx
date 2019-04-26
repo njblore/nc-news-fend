@@ -17,7 +17,7 @@ class Login extends Component {
           <button>Log In</button>
         </form>
         <p>Sign Up</p>
-        <button>Log In As Guest</button>
+        <button onClick={this.handleGuest}>Log In As Guest</button>
       </div>
     );
   }
@@ -36,6 +36,12 @@ class Login extends Component {
         navigate(`/users/${data.username}`, { state: { fromLogin: true } });
       })
       .catch(err => this.setState({ invalidUser: true }));
+  };
+
+  handleGuest = () => {
+    this.props.setCurrentUser('Guest');
+    this.props.toggleShowLogin();
+    navigate(`/articles`);
   };
 }
 

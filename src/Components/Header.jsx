@@ -5,7 +5,7 @@ const Header = props => {
   return (
     <div className="site-header">
       <h1>Northcoders News</h1>
-      <p>Logged in as: {props.currentUser}</p>
+      {props.currentUser && <p>Logged in as: {props.currentUser}</p>}
       <nav>
         <button onClick={props.clearTopic} className="nav-button">
           <Link to="/articles" className="link">
@@ -17,11 +17,13 @@ const Header = props => {
         </button>
         {props.currentUser ? (
           <>
-            <button className="nav-button">
-              <Link to={`/users/${props.currentUser}`} className="link">
-                My Profile
-              </Link>
-            </button>
+            {props.currentUser !== 'Guest' && (
+              <button className="nav-button">
+                <Link to={`/users/${props.currentUser}`} className="link">
+                  My Profile
+                </Link>
+              </button>
+            )}
             <button onClick={props.toggleLoggedIn} className="nav-button">
               Log Out
             </button>

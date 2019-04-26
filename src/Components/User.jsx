@@ -15,7 +15,7 @@ class User extends Component {
   };
   render() {
     return (
-      <div>
+      <div className="user-page-container">
         {this.state.deleteWarning && (
           <DeleteWarning
             confirmDeleteArticle={this.confirmDeleteArticle}
