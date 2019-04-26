@@ -18,6 +18,7 @@ class Articles extends Component {
     endOfArticles: false,
     totalCount: null,
     loggedInUser: null,
+    sortOrder: 'asc',
   };
   render() {
     return (
@@ -146,9 +147,17 @@ class Articles extends Component {
       fetchArticles({
         sort_by: this.state.sortBy,
         topic: this.props.currentTopic,
-      }).then(data =>
-        this.setState({ articles: data.articles, endOfArticles: false }),
-      );
+        order: this.state.sortOrder,
+      }).then(data => {
+        const sortOrder = { asc: 'desc', desc: 'asc' };
+        this.setState(prevState => {
+          return {
+            articles: data.articles,
+            endOfArticles: false,
+            sortOrder: sortOrder[prevState.sortOrder],
+          };
+        });
+      });
     });
   };
 
