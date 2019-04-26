@@ -24,7 +24,9 @@ class User extends Component {
         )}
         {this.state.user && (
           <>
-            {this.props.location.state ? (
+            {(this.props.location.state &&
+              this.props.location.state.fromLogin) ||
+            this.props.currentUser === this.state.user.username ? (
               <>
                 <h2>Welcome Back {this.state.user.name}!</h2>
                 <img src={this.state.user.avatar_url} alt="user avatar" />
@@ -41,12 +43,7 @@ class User extends Component {
               this.state.articles.map(article => {
                 return (
                   <div className="article-preview" key={article.article_id}>
-                    <Link
-                      to={`/${article.article_id.toString()}`}
-                      className="link"
-                    >
-                      <ArticleCard article={article} />
-                    </Link>
+                    <ArticleCard article={article} />
                     {this.props.currentUser &&
                       this.props.currentUser === article.author && (
                         <DeleteButton
