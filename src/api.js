@@ -9,7 +9,7 @@ export const fetchArticles = params => {
     method: 'get',
     url,
     params,
-  }).then(({ data }) => data.articles);
+  }).then(({ data }) => data);
 };
 
 export const fetchTopics = () => {

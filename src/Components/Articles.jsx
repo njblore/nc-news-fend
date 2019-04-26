@@ -13,6 +13,8 @@ class Articles extends Component {
     showPostArticle: false,
     deleteWarning: false,
     articleToDelete: null,
+    page: 1,
+    endOfArticles: false,
   };
   render() {
     return (
@@ -28,10 +30,22 @@ class Articles extends Component {
             confirmDeleteArticle={this.confirmDeleteArticle}
           />
         )}
+
         {this.state.articles && (
           <div>
             <div className="options-buttons">
               <button onClick={this.toggleSortBy}>Sort By:</button>
+              <div className="page-buttons">
+                <button onClick={() => this.handlePageChange(-1)}>
+                  Previous
+                </button>
+                <button
+                  onClick={() => this.handlePageChange(1)}
+                  disabled={this.state.endOfArticles}
+                >
+                  Next
+                </button>
+              </div>
               {this.props.currentUser && (
                 <button onClick={this.handlePostArticleClick}>
                   Post An Article
@@ -94,7 +108,7 @@ class Articles extends Component {
 
   fetchSortedArticles = param => {
     fetchArticles({ sort_by: param, topic: this.props.currentTopic }).then(
-      data => this.setState({ articles: data }),
+      data => this.setState({ articles: data.articles }),
     );
   };
 
@@ -102,6 +116,26 @@ class Articles extends Component {
     this.setState(prevState => {
       return { showPostArticle: !prevState.showPostArticle };
     });
+  };
+
+  handlePageChange = direction => {
+    this.state.page + direction >= 0 &&
+      this.setState(
+        prevState => {
+          return { page: prevState.page + direction };
+        },
+        () => {
+          fetchArticles({ p: this.state.page * 10 }).then(data => {
+            if (
+              (this.state.page + 1) * 10 >=
+              Math.ceil((data.total_count + 1) / 10) * 10
+            ) {
+              this.setState({ endOfArticles: true });
+            }
+            this.setState({ articles: data.articles });
+          });
+        },
+      );
   };
 
   handleDelete = article_id => {
@@ -127,13 +161,15 @@ class Articles extends Component {
   };
 
   componentDidMount() {
-    fetchArticles({}).then(data => this.setState({ articles: data }));
+    fetchArticles({ p: this.state.page }).then(data =>
+      this.setState({ articles: data.articles }),
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.currentTopic !== prevProps.currentTopic) {
       fetchArticles({ topic: this.props.currentTopic }).then(data =>
-        this.setState({ articles: data }),
+        this.setState({ articles: data.articles }),
       );
     }
   }
