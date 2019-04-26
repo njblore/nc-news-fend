@@ -207,7 +207,17 @@ class Articles extends Component {
 
   componentDidMount() {
     if (this.props.articles) {
-      this.setState({ articles: this.props.articles });
+      const end = this.props.articles.length <= this.props.totalCount;
+      this.setState(
+        {
+          articles: this.props.articles,
+          totalCount: this.props.totalCount,
+          endOfArticles: end,
+        },
+        () => {
+          console.log(this.state);
+        },
+      );
     } else {
       fetchArticles({ p: this.state.page }).then(data =>
         this.setState({

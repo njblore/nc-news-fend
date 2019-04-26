@@ -18,6 +18,7 @@ class User extends Component {
     showEditProfile: false,
     newName: '',
     newAvatar: '',
+    totalCount: null,
   };
   render() {
     return (
@@ -98,6 +99,7 @@ class User extends Component {
               <Articles
                 username={this.state.user.username}
                 articles={this.state.articles}
+                totalCount={this.state.totalCount}
               />
             )}
           </>
@@ -107,7 +109,6 @@ class User extends Component {
   }
 
   handleDelete = article_id => {
-    console.log('handling delete');
     this.setState(prevState => {
       return {
         deleteWarning: !prevState.deleteWarning,
@@ -117,8 +118,6 @@ class User extends Component {
   };
 
   confirmDeleteArticle = () => {
-    console.log('confirming delete');
-
     const filteredArticles = this.state.articles.filter(
       article => article.article_id !== this.state.articleToDelete,
     );
@@ -152,7 +151,6 @@ class User extends Component {
   };
 
   handleSubmit = () => {
-    console.log('submitting');
     let newUser = {};
     if (this.state.newAvatar) {
       newUser.avatar_url = this.state.newAvatar;
@@ -177,7 +175,7 @@ class User extends Component {
         navigate('/Error', { replace: true, state: { msg } });
       });
     fetchArticles({ author: this.props.username }).then(data =>
-      this.setState({ articles: data.articles }),
+      this.setState({ articles: data.articles, totalCount: data.total_count }),
     );
   }
 
