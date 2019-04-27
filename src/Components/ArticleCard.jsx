@@ -24,7 +24,7 @@ class ArticleCard extends Component {
               to={`/articles/${this.props.article.article_id.toString()}`}
               className="link"
             >
-              <h2 className="article-title no-margin">
+              <h2 className="article-title">
                 {this.props.article.title
                   .split(' ')
                   .slice(0, 7)
@@ -33,11 +33,11 @@ class ArticleCard extends Component {
             </Link>
             <div className="article-header-subtitle">
               <Link to={`/users/${this.props.article.author}`} className="link">
-                <h3 className="no-margin article-author">
+                <h3 className=" article-author">
                   - {this.props.article.author}
                 </h3>
               </Link>
-              <h3 className="no-margin">[{this.props.article.topic}] </h3>
+              <h3 className="">[{this.props.article.topic}] </h3>
             </div>
           </header>
           <p className="preview-body">

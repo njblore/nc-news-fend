@@ -3,13 +3,14 @@ import { navigate } from '@reach/router';
 import { fetchUser } from '../api';
 
 const Header = props => {
-  fetchUser(props.currentUser).then(data =>
-    props.setCurrentAvatar(data.avatar_url),
-  );
+  props.currentUser &&
+    fetchUser(props.currentUser).then(data =>
+      props.setCurrentAvatar(data.avatar_url),
+    );
   return (
     <div className="site-header">
       <div className="title-bar">
-        <h1 className="header-title">Northcoders News</h1>
+        <h1 className="header-title"> &lt; Northcoders News /&gt;</h1>
         {props.currentUser && (
           <div className="current-user">
             <img

@@ -24,7 +24,9 @@ class Articles extends Component {
     return (
       <div className="articles-list">
         {!this.props.currentTopic ? (
-          !this.props.username && <h1>Latest Articles</h1>
+          !this.props.username && (
+            <h1 className="header-title">Latest Articles</h1>
+          )
         ) : (
           <h1>{this.props.currentTopic}</h1>
         )}
@@ -36,7 +38,7 @@ class Articles extends Component {
         )}
 
         {this.state.articles && (
-          <div>
+          <div className="articles-list">
             <div className="options-buttons">
               {!this.props.username && (
                 <button onClick={this.toggleSortBy}>Sort By:</button>
@@ -89,30 +91,20 @@ class Articles extends Component {
             {this.state.articles.map(article => {
               return (
                 <div className="article-preview" key={article.article_id}>
-                  <div className="">
-                    {/* <div className="article-votes">
-                      {this.props.currentUser && (
-                        <VoteButtons
-                          article_id={article.article_id}
-                          handleArticleVote={this.props.handleArticleVote}
-                          votes={article.votes}
-                        />
-                      )}
-                    </div> */}
+                  <ArticleCard
+                    article={article}
+                    currentUser={this.props.currentUser}
+                  />
 
-                    <ArticleCard
-                      article={article}
-                      currentUser={this.props.currentUser}
-                    />
-
-                    {this.props.currentUser &&
-                      this.props.currentUser === article.author && (
+                  {this.props.currentUser &&
+                    this.props.currentUser === article.author && (
+                      <div className="article-delete">
                         <DeleteButton
                           handleDelete={this.handleDelete}
                           article_id={article.article_id}
                         />
-                      )}
-                  </div>
+                      </div>
+                    )}
                 </div>
               );
             })}
@@ -251,7 +243,6 @@ class Articles extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.articles);
     if (this.props.currentTopic !== prevProps.currentTopic) {
       fetchArticles({
         topic: this.props.currentTopic,
