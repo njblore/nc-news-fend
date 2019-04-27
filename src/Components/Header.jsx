@@ -1,11 +1,26 @@
 import React from 'react';
 import { navigate } from '@reach/router';
+import { fetchUser } from '../api';
 
 const Header = props => {
+  fetchUser(props.currentUser).then(data =>
+    props.setCurrentAvatar(data.avatar_url),
+  );
   return (
     <div className="site-header">
-      <h1>Northcoders News</h1>
-      {props.currentUser && <p>Logged in as: {props.currentUser}</p>}
+      <div className="title-bar">
+        <h1 className="header-title">Northcoders News</h1>
+        {props.currentUser && (
+          <div className="current-user">
+            <img
+              src={props.currentAvatar}
+              alt="user avatar"
+              className="avatar-img"
+            />
+            <p className="user-message">{props.currentUser}</p>
+          </div>
+        )}
+      </div>
       <nav>
         <button
           onClick={() => {

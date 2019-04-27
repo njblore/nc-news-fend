@@ -17,6 +17,7 @@ class App extends Component {
     showLogin: false,
     currentTopic: null,
     deleteWarning: false,
+    currentAvatar: null,
   };
 
   render() {
@@ -28,6 +29,8 @@ class App extends Component {
           toggleShowLogin={this.toggleShowLogin}
           toggleLoggedIn={this.toggleLoggedIn}
           currentUser={this.state.currentUser}
+          setCurrentAvatar={this.setCurrentAvatar}
+          currentAvatar={this.state.currentAvatar}
         />
         {this.state.showTopics && <Topics setTopic={this.setTopic} />}
         {this.state.showLogin && (
@@ -89,6 +92,10 @@ class App extends Component {
 
   setCurrentUser = user => {
     this.setState({ currentUser: user });
+  };
+
+  setCurrentAvatar = avatar => {
+    this.setState({ currentAvatar: avatar });
   };
 
   componentDidMount() {

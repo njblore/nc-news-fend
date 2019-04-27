@@ -182,6 +182,7 @@ class Articles extends Component {
             sort_by: this.state.sort_by,
             topic: this.props.currentTopic,
             author: this.props.username,
+            order: this.state.sortOrder,
           })
             .then(data => {
               if (
@@ -250,6 +251,7 @@ class Articles extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.state.articles);
     if (this.props.currentTopic !== prevProps.currentTopic) {
       fetchArticles({
         topic: this.props.currentTopic,
