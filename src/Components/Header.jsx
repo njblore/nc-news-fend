@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigate } from '@reach/router';
+import { Link } from '@reach/router';
 import { fetchUser } from '../api';
 
 const Header = props => {
@@ -23,34 +23,29 @@ const Header = props => {
         )}
       </div>
       <nav>
-        <button
-          onClick={() => {
-            navigate('/articles');
-          }}
-          className="nav-button"
-        >
-          Articles
-        </button>
+        <Link to="/articles">
+          <button className="nav-button button">Articles</button>
+        </Link>
 
-        <button onClick={props.toggleTopics} className="nav-button">
+        <button onClick={props.toggleTopics} className="nav-button button">
           Topics
         </button>
         {props.currentUser ? (
           <>
             {props.currentUser !== 'Guest' && (
-              <button
-                className="nav-button"
-                onClick={() => navigate(`/users/${props.currentUser}`)}
-              >
-                My Profile
-              </button>
+              <Link to={`/users/${props.currentUser}`}>
+                <button className="nav-button button">My Profile</button>
+              </Link>
             )}
-            <button onClick={props.toggleLoggedIn} className="nav-button">
+            <button
+              onClick={props.toggleLoggedIn}
+              className="nav-button button"
+            >
               Log Out
             </button>
           </>
         ) : (
-          <button onClick={props.toggleShowLogin} className="nav-button">
+          <button onClick={props.toggleShowLogin} className="nav-button button">
             Log In
           </button>
         )}

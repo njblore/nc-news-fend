@@ -18,6 +18,18 @@ body {
   display: flex;
 }
 
+.button {
+  border: none;
+  margin: 0.5vh 0.5vw;
+  color: #303030;
+  font-size: 0.6rem;
+  text-emphasis: none;
+}
+
+.button:hover {
+  background: whitesmoke;
+}
+
 /* HEADER FOR SITE */
 
 .site-header {
@@ -72,19 +84,15 @@ nav {
 
 .nav-button {
   align-self: center;
-  font-size: 0.6em;
-  color: black;
 }
 
 .topics-bar {
   display: flex;
-  justify-content: space-between;
-  width: ;
-  margin: auto;
-  border: 2pt solid red;
+  justify-content: space-around;
+  border-bottom: 2pt solid red;
   border-top: none;
   box-sizing: border-box;
-  justify-content: space-between;
+  background: white;
 }
 
 .topic-button {
