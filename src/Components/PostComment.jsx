@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { postCommentToArticle } from '../api';
 
 class PostComment extends Component {
-  state = { commentValue: '', commentError: false };
+  state = { commentValue: '' };
   render() {
     return (
       <div className="comment-box popup">
-        {this.state.commentError && (
-          <p>Woops something went wrong with you comment</p>
-        )}
         <form onSubmit={this.handleSubmit}>
           <textarea
             rows=""
@@ -52,10 +49,10 @@ class PostComment extends Component {
           })
           .catch(err => {
             this.props.toggleShowPostComment();
-            this.setState({ commentError: true });
+            this.props.toggleError();
           })
-      : this.setState({ commentError: true });
-    this.setState({ commentValue: '', commentError: false });
+      : this.props.toggleError();
+    this.setState({ commentValue: '' });
   };
 }
 

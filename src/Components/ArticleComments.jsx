@@ -9,6 +9,7 @@ class ArticleComments extends Component {
     showPostComment: false,
     newComments: [],
     noComments: false,
+    commentError: false,
   };
   render() {
     return (
@@ -21,13 +22,24 @@ class ArticleComments extends Component {
         {this.props.currentUser && this.props.currentUser !== 'Guest' && (
           <button onClick={this.toggleShowPostComment}>Post A Comment</button>
         )}
-
+        {this.state.commentError && (
+          <div className="comment-error popup">
+            <p>
+              Oh no! Something went wrong with your comment, please try again
+              soon :(
+            </p>
+            <button onClick={this.toggleError} className="bad-button">
+              Ok
+            </button>
+          </div>
+        )}
         {this.state.showPostComment && (
           <PostComment
             article_id={this.props.article_id}
             currentUser={this.props.currentUser}
             updateComments={this.updateComments}
             toggleShowPostComment={this.toggleShowPostComment}
+            toggleError={this.toggleError}
           />
         )}
         {this.state.comments &&
@@ -48,6 +60,12 @@ class ArticleComments extends Component {
   toggleShowPostComment = () => {
     this.setState(prevState => {
       return { showPostComment: !prevState.showPostComment };
+    });
+  };
+
+  toggleError = () => {
+    this.setState(prevState => {
+      return { commentError: !prevState.commentError };
     });
   };
 

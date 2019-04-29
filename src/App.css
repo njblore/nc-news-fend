@@ -285,6 +285,10 @@ nav {
   margin: 1vh 3vw;
 }
 
+.comment-error {
+  width: 80vw;
+}
+
 /* POPUP BOXES */
 
 .popup {
