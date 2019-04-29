@@ -8,16 +8,19 @@ class ArticleCard extends Component {
   render() {
     return (
       <div className="article-sub-preview">
-        <div className="article-votes">
-          {this.props.currentUser && (
+        {this.props.currentUser ? (
+          <div className="article-votes">
             <VoteButtons
               article_id={this.props.article.article_id}
               handleArticleVote={this.handleArticleVote}
               votes={this.props.article.votes}
               votesToAdd={this.state.currentArticleVotes}
             />
-          )}
-        </div>
+          </div>
+        ) : (
+          <p className="guest-votes">{this.props.article.votes}</p>
+        )}
+
         <div className="article-card">
           <header className="article-preview-header">
             <Link
@@ -37,7 +40,13 @@ class ArticleCard extends Component {
                   - {this.props.article.author}
                 </h3>
               </Link>
+              <h3>{this.props.article.created_at.slice(0, 10)}</h3>
               <h3 className="">[{this.props.article.topic}] </h3>
+              <h3>
+                {this.props.article.comment_count === '1'
+                  ? this.props.article.comment_count + ' comment'
+                  : this.props.article.comment_count + ' comments'}
+              </h3>
             </div>
           </header>
           <p className="preview-body">

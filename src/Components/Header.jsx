@@ -4,6 +4,7 @@ import { fetchUser } from '../api';
 
 const Header = props => {
   props.currentUser &&
+    props.currentUser !== 'Guest' &&
     fetchUser(props.currentUser).then(data =>
       props.setCurrentAvatar(data.avatar_url),
     );

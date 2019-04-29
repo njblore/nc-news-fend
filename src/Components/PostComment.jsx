@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { postCommentToArticle } from '../api';
 
 class PostComment extends Component {
-  state = { commentValue: '' };
+  state = { commentValue: '', commentError: false };
   render() {
     return (
       <div className="comment-box popup">
+        {this.state.commentError && (
+          <p>Woops something went wrong with you comment</p>
+        )}
         <form onSubmit={this.handleSubmit}>
           <textarea
             rows=""
@@ -35,19 +38,24 @@ class PostComment extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    postCommentToArticle({
-      username: this.props.currentUser,
-      body: this.state.commentValue,
-      article_id: this.props.article_id,
-    })
-      .then(data => {
-        console.log('response from postComentToArticle ->', data);
-        data.comment.author = data.comment.created_by;
-        this.props.updateComments(data.comment);
-        this.props.toggleShowPostComment();
-      })
-      .catch(err => console.log(err.response));
-    this.setState({ commentValue: '' });
+    this.state.commentValue !== ''
+      ? postCommentToArticle({
+          username: this.props.currentUser,
+          body: this.state.commentValue,
+          article_id: this.props.article_id,
+        })
+          .then(data => {
+            console.log('response from postComentToArticle ->', data);
+            data.comment.author = data.comment.created_by;
+            this.props.updateComments(data.comment);
+            this.props.toggleShowPostComment();
+          })
+          .catch(err => {
+            this.props.toggleShowPostComment();
+            this.setState({ commentError: true });
+          })
+      : this.setState({ commentError: true });
+    this.setState({ commentValue: '', commentError: false });
   };
 }
 

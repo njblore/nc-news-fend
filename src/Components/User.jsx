@@ -6,7 +6,7 @@ import {
   editUserProfile,
 } from '../api';
 import Articles from './Articles';
-import { navigate } from '@reach/router/lib/history';
+import { navigate } from '@reach/router/';
 import DeleteWarning from './DeleteWarning';
 
 class User extends Component {
@@ -100,6 +100,7 @@ class User extends Component {
                 username={this.state.user.username}
                 articles={this.state.articles}
                 totalCount={this.state.totalCount}
+                currentUser={this.props.currentUser}
               />
             )}
           </>
@@ -168,15 +169,22 @@ class User extends Component {
   componentDidMount() {
     fetchUser(this.props.username)
       .then(data => {
-        this.setState({ user: data });
+        this.setState({ user: data }, () => {
+          fetchArticles({ author: this.props.username }).then(data =>
+            this.setState({
+              articles: data.articles,
+              totalCount: data.total_count,
+            }),
+          );
+        });
       })
       .catch(err => {
         const msg = err.response.data.msg;
         navigate('/Error', { replace: true, state: { msg } });
       });
-    fetchArticles({ author: this.props.username }).then(data =>
-      this.setState({ articles: data.articles, totalCount: data.total_count }),
-    );
+    // fetchArticles({ author: this.props.username }).then(data =>
+    //   this.setState({ articles: data.articles, totalCount: data.total_count }),
+    // );
   }
 
   componentDidUpdate(prevProps, prevState) {

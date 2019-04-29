@@ -57,7 +57,7 @@ class Articles extends Component {
                   Next
                 </button>
               </div>
-              {this.props.currentUser && (
+              {this.props.currentUser && this.props.currentUser !== 'Guest' && (
                 <button onClick={this.handlePostArticleClick}>
                   Post An Article
                 </button>

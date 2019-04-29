@@ -148,6 +148,14 @@ nav {
   height: 100%;
 }
 
+.guest-votes {
+  background: #dbdbdb;
+  margin: 0;
+  width: 5vw;
+  text-align: center;
+  font-family: ;
+}
+
 .article-sub-preview {
   display: flex;
   background: white;
@@ -403,6 +411,7 @@ textarea {
   flex-direction: column;
   background: white;
   justify-content: space-between;
+  height: 100%;
 }
 
 .bad-button {

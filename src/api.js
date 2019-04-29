@@ -23,9 +23,9 @@ export const fetchComments = id => {
 };
 
 export const fetchUser = username => {
-  return Axios.get(`${baseURL}/users/${username}`)
-    .then(({ data }) => data.user)
-    .catch(err => console.log(err.response));
+  return Axios.get(`${baseURL}/users/${username}`).then(
+    ({ data }) => data.user,
+  );
 };
 
 export const updateArticleVotes = (article_id, vote) => {
