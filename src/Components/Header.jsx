@@ -1,25 +1,23 @@
-import React from 'react';
+import React , {Component} from 'react';
 import { Link } from '@reach/router';
 import { fetchUser } from '../api';
 
-const Header = props => {
-  props.currentUser &&
-    props.currentUser !== 'Guest' &&
-    fetchUser(props.currentUser).then(data =>
-      props.setCurrentAvatar(data.avatar_url),
-    );
+class Header extends Component {
+
+  render() {
+    const {currentUser ,currentAvatar, toggleTopics, toggleLoggedIn, toggleShowLogin} = this.props
   return (
     <div className="site-header">
       <div className="title-bar">
         <h1 className="header-title"> &lt; Northcoders News /&gt;</h1>
-        {props.currentUser && (
+        {currentUser && (
           <div className="current-user">
             <img
-              src={props.currentAvatar}
+              src={currentAvatar}
               alt="user avatar"
               className="avatar-img"
             />
-            <p className="user-message">{props.currentUser}</p>
+            <p className="user-message">{currentUser}</p>
           </div>
         )}
       </div>
@@ -28,31 +26,42 @@ const Header = props => {
           <button className="nav-button button">Articles</button>
         </Link>
 
-        <button onClick={props.toggleTopics} className="nav-button button">
+        <button onClick={toggleTopics} className="nav-button button">
           Topics
         </button>
-        {props.currentUser ? (
+        {currentUser ? (
           <>
-            {props.currentUser !== 'Guest' && (
-              <Link to={`/users/${props.currentUser}`}>
+            {currentUser !== 'Guest' && (
+              <Link to={`/users/${currentUser}`}>
                 <button className="nav-button button">My Profile</button>
               </Link>
             )}
             <button
-              onClick={props.toggleLoggedIn}
+              onClick={toggleLoggedIn}
               className="nav-button button"
             >
               Log Out
             </button>
           </>
         ) : (
-          <button onClick={props.toggleShowLogin} className="nav-button button">
+          <button onClick={toggleShowLogin} className="nav-button button">
             Log In
           </button>
         )}
       </nav>
     </div>
   );
+  }
+
+  componentDidMount() {
+    const {currentUser, setCurrentAvatar} = this.props
+currentUser &&
+    currentUser !== 'Guest' &&
+    fetchUser(currentUser).then(data =>
+      setCurrentAvatar(data.avatar_url),
+    );
+  }
+  
 };
 
 export default Header;

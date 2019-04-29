@@ -12,17 +12,19 @@ class ArticleComments extends Component {
     commentError: false,
   };
   render() {
+    const {comments, showPostComment, newComments, noComments, commentError} = this.state
+    const {currentUser, article_id} = this.props
     return (
       <div className="comments-section">
-        {this.state.noComments ? (
+        {noComments ? (
           <p>Be the first to comment!</p>
         ) : (
           <h3>Comments:</h3>
         )}
-        {this.props.currentUser && this.props.currentUser !== 'Guest' && (
+        {currentUser && currentUser !== 'Guest' && (
           <button onClick={this.toggleShowPostComment}>Post A Comment</button>
         )}
-        {this.state.commentError && (
+        {commentError && (
           <div className="comment-error popup">
             <p>
               Oh no! Something went wrong with your comment, please try again
@@ -33,22 +35,22 @@ class ArticleComments extends Component {
             </button>
           </div>
         )}
-        {this.state.showPostComment && (
+        {showPostComment && (
           <PostComment
-            article_id={this.props.article_id}
-            currentUser={this.props.currentUser}
+            article_id={article_id}
+            currentUser={currentUser}
             updateComments={this.updateComments}
             toggleShowPostComment={this.toggleShowPostComment}
             toggleError={this.toggleError}
           />
         )}
-        {this.state.comments &&
-          [...this.state.newComments, ...this.state.comments].map(comment => {
+        {comments &&
+          [...newComments, ...comments].map(comment => {
             return (
               <div key={comment.comment_id} className="article-link">
                 <CommentCard
                   comment={comment}
-                  currentUser={this.props.currentUser}
+                  currentUser={currentUser}
                 />
               </div>
             );
@@ -76,7 +78,8 @@ class ArticleComments extends Component {
   };
 
   componentDidMount() {
-    fetchComments(this.props.article_id)
+    const {article_id} = this.props
+    fetchComments(article_id)
       .then(data => {
         data.length === 0
           ? this.setState({ noComments: true, comments: data })

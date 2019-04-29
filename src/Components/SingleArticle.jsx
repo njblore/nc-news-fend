@@ -14,44 +14,46 @@ class SingleArticle extends Component {
     voteLoading: false,
   };
   render() {
+    const {article, currentArticleVotes, votingError, voteLoading} = this.state
+    const {currentUser, article_id} = this.props
     return (
       <div className="single-article">
-        {this.state.article && (
+        {article && (
           <div>
-            {this.state.voteLoading && <Loading />}
+            {voteLoading && <Loading />}
             <header className="single-article-header">
-              <h1>{this.state.article.title}</h1>
+              <h1>{article.title}</h1>
             </header>
             <main>
               <div className="single-article-subtitle">
                 <h3 className=" article-author">
-                  -{this.state.article.author}
+                  -{article.author}
                 </h3>
-                <h3>[{this.state.article.topic}]</h3>
+                <h3>[{article.topic}]</h3>
                 <div className="single-article-votes">
                   <h3>
-                    {this.state.article.votes + this.state.currentArticleVotes}
+                    {article.votes + currentArticleVotes}
                   </h3>
-                  {this.props.currentUser && (
+                  {currentUser && (
                     <VoteButtons
                       handleArticleVote={this.handleArticleVote}
-                      currentArticleVotes={this.state.currentArticleVotes}
+                      currentArticleVotes={currentArticleVotes}
                     />
                   )}
                 </div>
               </div>
 
-              {this.state.votingError && (
+              {votingError && (
                 <p>
                   Oh no! Something went wrong with your vote, please try again
                   soon!
                 </p>
               )}
-              <p>{this.state.article.body}</p>
+              <p>{article.body}</p>
             </main>
             <ArticleComments
-              article_id={this.props.article_id}
-              currentUser={this.props.currentUser}
+              article_id={article_id}
+              currentUser={currentUser}
             />
           </div>
         )}
@@ -60,8 +62,9 @@ class SingleArticle extends Component {
   }
 
   handleArticleVote = vote => {
+    const {article} = this.state
     this.setState({ voteLoading: true }, () => {
-      updateArticleVotes(this.state.article.article_id, vote)
+      updateArticleVotes(article.article_id, vote)
         .then(() =>
           this.setState(prevState => {
             return {
@@ -78,9 +81,10 @@ class SingleArticle extends Component {
   };
 
   componentDidMount() {
+    const {article_id} = this.props
     Axios.get(
       `https://northcoders-news-server.herokuapp.com/api/articles/${
-        this.props.article_id
+        article_id
       }`,
     )
       .then(({ data }) => this.setState({ article: data.article }))

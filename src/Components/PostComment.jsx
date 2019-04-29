@@ -4,12 +4,14 @@ import { postCommentToArticle } from '../api';
 class PostComment extends Component {
   state = { commentValue: '' };
   render() {
+    const {commentValue} = this.state
+    const {toggleShowPostComment} = this.props
     return (
       <div className="comment-box popup">
         <form onSubmit={this.handleSubmit}>
           <textarea
             rows=""
-            value={this.state.commentValue}
+            value={commentValue}
             onChange={this.handleTyping}
             className="form-text"
           />
@@ -18,7 +20,7 @@ class PostComment extends Component {
               Post
             </button>
             <button
-              onClick={this.props.toggleShowPostComment}
+              onClick={toggleShowPostComment}
               className="bad-button"
             >
               Cancel
@@ -34,24 +36,25 @@ class PostComment extends Component {
   };
 
   handleSubmit = e => {
+    const {commentValue} = this.state
+    const {currentUser, article_id, updateComments, toggleShowPostComment, toggleError} = this.props
     e.preventDefault();
-    this.state.commentValue !== ''
+    commentValue !== ''
       ? postCommentToArticle({
-          username: this.props.currentUser,
-          body: this.state.commentValue,
-          article_id: this.props.article_id,
+          username: currentUser,
+          body: commentValue,
+          article_id: article_id,
         })
           .then(data => {
-            console.log('response from postComentToArticle ->', data);
             data.comment.author = data.comment.created_by;
-            this.props.updateComments(data.comment);
-            this.props.toggleShowPostComment();
+            updateComments(data.comment);
+            toggleShowPostComment();
           })
           .catch(err => {
-            this.props.toggleShowPostComment();
-            this.props.toggleError();
+            toggleShowPostComment();
+            toggleError();
           })
-      : this.props.toggleError();
+      : toggleError();
     this.setState({ commentValue: '' });
   };
 }

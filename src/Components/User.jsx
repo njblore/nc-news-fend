@@ -21,26 +21,29 @@ class User extends Component {
     totalCount: null,
   };
   render() {
+    const {user, articles, deleteWarning, showEditProfile, newName, newAvatar, totalCount} = this.state
+    const {location, currentUser} = this.props
+    
     return (
       <div className="user-page-container">
-        {this.state.deleteWarning && (
+        {deleteWarning && (
           <DeleteWarning
             confirmDeleteArticle={this.confirmDeleteArticle}
             handleDelete={this.handleDelete}
           />
         )}
-        {this.state.user && (
+        {user && (
           <>
-            {(this.props.location.state &&
-              this.props.location.state.fromLogin) ||
-            this.props.currentUser === this.state.user.username ? (
+            {(location.state &&
+              location.state.fromLogin) ||
+            currentUser === user.username ? (
               <>
-                {this.state.showEditProfile && (
+                {showEditProfile && (
                   <div className="profile-popup popup">
                     <label className="profile-label flex">
                       Change My Name:
                       <input
-                        value={this.state.newName}
+                        value={newName}
                         onChange={e => {
                           this.handleTyping(e.target.value, 'name');
                         }}
@@ -49,7 +52,7 @@ class User extends Component {
                     <label className="profile-label flex">
                       Change My Profile Pic:{' '}
                       <input
-                        value={this.state.newAvatar}
+                        value={newAvatar}
                         onChange={e => {
                           this.handleTyping(e.target.value, 'avatar');
                         }}
@@ -72,10 +75,10 @@ class User extends Component {
                   </div>
                 )}
                 <h2 className="user-heading">
-                  Welcome Back {this.state.user.name}!
+                  Welcome Back {user.name}!
                 </h2>
                 <img
-                  src={this.state.user.avatar_url}
+                  src={user.avatar_url}
                   className="profile-pic"
                   alt="user avatar"
                 />
@@ -84,23 +87,23 @@ class User extends Component {
               </>
             ) : (
               <>
-                <h2 className="user-heading">{this.state.user.name}</h2>
+                <h2 className="user-heading">{user.name}</h2>
                 <img
-                  src={this.state.user.avatar_url}
+                  src={user.avatar_url}
                   alt="user avatar"
                   className="profile-pic"
                 />
                 <h3 className="user-heading">
-                  Articles By {this.state.user.name}:
+                  Articles By {user.name}:
                 </h3>
               </>
             )}
-            {this.state.articles && (
+            {articles && (
               <Articles
-                username={this.state.user.username}
-                articles={this.state.articles}
-                totalCount={this.state.totalCount}
-                currentUser={this.props.currentUser}
+                username={user.username}
+                articles={articles}
+                totalCount={totalCount}
+                currentUser={currentUser}
               />
             )}
           </>
@@ -119,13 +122,12 @@ class User extends Component {
   };
 
   confirmDeleteArticle = () => {
-    const filteredArticles = this.state.articles.filter(
-      article => article.article_id !== this.state.articleToDelete,
+    const {articles, articleToDelete} = this.state
+    const filteredArticles = articles.filter(
+      article => article.article_id !== articleToDelete,
     );
-    deleteArticle(this.state.articleToDelete)
+    deleteArticle(articleToDelete)
       .then(() => {
-        console.log('deleted delete');
-
         this.setState({ articles: filteredArticles, deleteWarning: false });
       })
       .catch(err => {
@@ -152,25 +154,26 @@ class User extends Component {
   };
 
   handleSubmit = () => {
+    const {newAvatar, newName, user} = this.state
     let newUser = {};
-    if (this.state.newAvatar) {
-      newUser.avatar_url = this.state.newAvatar;
+    if (newAvatar) {
+      newUser.avatar_url = newAvatar;
     }
-    if (this.state.newName) {
-      newUser.name = this.state.newName;
+    if (newName) {
+      newUser.name = newName;
     }
-    console.log(newUser);
-    editUserProfile(newUser, this.state.user.username).then(data => {
+    editUserProfile(newUser, user.username).then(data => {
       this.toggleShowEdit();
       this.setState({ user: data.user });
     });
   };
 
   componentDidMount() {
-    fetchUser(this.props.username)
+    const {username} = this.props
+    fetchUser(username)
       .then(data => {
         this.setState({ user: data }, () => {
-          fetchArticles({ author: this.props.username }).then(data =>
+          fetchArticles({ author: username }).then(data =>
             this.setState({
               articles: data.articles,
               totalCount: data.total_count,
@@ -182,16 +185,17 @@ class User extends Component {
         const msg = err.response.data.msg;
         navigate('/Error', { replace: true, state: { msg } });
       });
-    // fetchArticles({ author: this.props.username }).then(data =>
+    // fetchArticles({ author: username }).then(data =>
     //   this.setState({ articles: data.articles, totalCount: data.total_count }),
     // );
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.currentTopic !== prevProps.currentTopic) {
+    const {currentTopic, username} = this.props
+    if (currentTopic !== prevProps.currentTopic) {
       fetchArticles({
-        author: this.props.username,
-        topic: this.props.currentTopic,
+        author: username,
+        topic: currentTopic,
       }).then(data => this.setState({ articles: data.articles }));
     }
   }

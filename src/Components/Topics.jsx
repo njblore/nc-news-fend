@@ -4,15 +4,17 @@ import { fetchTopics } from '../api';
 class Topics extends Component {
   state = { topics: null };
   render() {
+    const {topics} = this.state
+    const {setTopic} = this.props
     return (
       <div className="topics-bar">
-        {this.state.topics && (
+        {topics && (
           <>
-            {this.state.topics.map(topic => {
+            {topics.map(topic => {
               return (
                 <button
                   key={topic.slug}
-                  onClick={e => this.props.setTopic(topic.slug)}
+                  onClick={e => setTopic(topic.slug)}
                   className="button topic-button"
                 >
                   {topic.slug}

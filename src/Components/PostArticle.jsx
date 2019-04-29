@@ -10,19 +10,22 @@ class PostArticle extends Component {
     topic: '',
     currentlyChecked: null,
     postError: false,
+    topicError: false
   };
   render() {
+    const {topics, title, body, currentlyChecked, postError, topicError} = this.state
+    const {handlePostArticleClick} = this.props
     return (
       <div className="post-article popup">
         <form className="article-form" onSubmit={this.handleSubmit}>
           Title:
           <input
             onChange={e => this.handleTyping(e.target.value, 'title')}
-            value={this.state.title}
+            value={title}
           />
           Topic:
-          {this.state.topics &&
-            this.state.topics.map(topic => {
+          {topics &&
+            topics.map(topic => {
               return (
                 <div className="checkbox" key={topic.slug}>
                   <label htmlFor={topic.slug}>{topic.slug}:</label>
@@ -31,7 +34,7 @@ class PostArticle extends Component {
                     value={topic.slug}
                     name={topic.slug}
                     onChange={this.handleRadioClick}
-                    checked={this.state.currentlyChecked === topic.slug}
+                    checked={currentlyChecked === topic.slug}
                   />
                 </div>
               );
@@ -43,27 +46,27 @@ class PostArticle extends Component {
               value="other"
               name="other"
               onChange={this.handleRadioClick}
-              checked={this.state.currentlyChecked === 'other'}
+              checked={currentlyChecked === 'other'}
             />
-            {this.state.currentlyChecked === 'other' && (
+            {currentlyChecked === 'other' && (
               <input
                 type="text"
                 name="other"
                 onChange={this.handleOtherTopic}
               />
             )}
-            {this.state.topicError && <p>Topic Already Exists!</p>}
+            {topicError && <p>Topic Already Exists!</p>}
           </div>
           Body:
           <input
             onChange={e => this.handleTyping(e.target.value, 'body')}
-            value={this.state.body}
+            value={body}
           />
-          {this.state.postError && <p>Please fill out all fields!</p>}
+          {postError && <p>Please fill out all fields!</p>}
           <div className="page-buttons">
             <button className="good-button">Post Article</button>
             <button
-              onClick={this.props.handlePostArticleClick}
+              onClick={handlePostArticleClick}
               className="bad-button"
             >
               Cancel
@@ -91,20 +94,22 @@ class PostArticle extends Component {
   };
 
   handleSubmit = e => {
+    const {currentlyChecked, body, title, topic} = this.state
+    const {currentUser} = this.props
     e.preventDefault();
-    const topic =
-      this.state.currentlyChecked === 'other'
-        ? this.state.topic
-        : this.state.currentlyChecked;
+    const currentTopic =
+      currentlyChecked === 'other'
+        ? topic
+        : currentlyChecked;
     const articleObject = {
-      body: this.state.body,
-      author: this.props.currentUser,
-      title: this.state.title,
-      topic,
+      body: body,
+      author: currentUser,
+      title: title,
+      topic: currentTopic,
     };
 
-    this.state.currentlyChecked === 'other'
-      ? postTopic(this.state.topic)
+    currentlyChecked === 'other'
+      ? postTopic(topic)
           .then(res => {
             postArticle(articleObject)
               .then(response => {

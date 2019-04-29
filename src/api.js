@@ -3,7 +3,7 @@ import Axios from 'axios';
 const baseURL = 'https://northcoders-news-server.herokuapp.com/api';
 
 export const fetchArticles = params => {
-  let url = baseURL + '/articles';
+  const url = baseURL + '/articles';
 
   return Axios({
     method: 'get',
@@ -39,7 +39,6 @@ export const updateCommentVotes = (comment_id, vote) => {
 };
 
 export const postCommentToArticle = commentObject => {
-  console.log('comment object ->', commentObject);
   const url = baseURL + '/articles/' + commentObject.article_id + '/comments';
   return Axios.post(url, commentObject).then(({ data }) => data);
 };

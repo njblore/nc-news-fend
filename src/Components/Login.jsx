@@ -7,24 +7,26 @@ class Login extends Component {
     username: '',
     invalidUser: false,
     showSignup: false,
-    name: '',
+    fullName: '',
     avatar: '',
   };
   render() {
+    const {username, invalidUser, showSignup} = this.state
+    const {toggleShowLogin} = this.props
     return (
       <div className="login-box popup">
-        <button onClick={this.props.toggleShowLogin} className="bad-button">
+        <button onClick={toggleShowLogin} className="bad-button">
           Close
         </button>
         <form onSubmit={this.handleSubmit} className="flex">
           <input
             onChange={e => this.handleTyping(e.target.value, 'username')}
           />
-          {this.state.invalidUser && <p>Invalid Username!</p>}
+          {invalidUser && <p>Invalid Username!</p>}
           <button>Log In</button>
         </form>
         <button onClick={this.handleSignup}>Sign Up!</button>
-        {this.state.showSignup && (
+        {showSignup && (
           <div className="signup-popup popup">
             <button onClick={this.handleSignup} className="bad-button">
               Cancel
@@ -32,7 +34,7 @@ class Login extends Component {
             Username:
             <input
               onChange={e => this.handleTyping(e.target.value, 'username')}
-              value={this.state.username}
+              value={username}
             />
             Name:
             <input onChange={e => this.handleTyping(e.target.value, 'name')} />
@@ -61,20 +63,23 @@ class Login extends Component {
   };
 
   handleSubmit = e => {
+    const {username} = this.state
+    const {setCurrentUser, toggleShowLogin} = this.props
     e && e.preventDefault();
-    fetchUser(this.state.username)
+    fetchUser(username)
       .then(data => {
-        data.username && this.props.setCurrentUser(this.state.username);
+        data.username && setCurrentUser(username);
         localStorage.setItem('currentUser', data.username);
-        this.props.toggleShowLogin();
+        toggleShowLogin();
         navigate(`/users/${data.username}`, { state: { fromLogin: true } });
       })
       .catch(err => this.setState({ invalidUser: true }));
   };
 
   handleGuest = () => {
-    this.props.setCurrentUser('Guest');
-    this.props.toggleShowLogin();
+    const {setCurrentUser, toggleShowLogin} = this.props
+    setCurrentUser('Guest');
+    toggleShowLogin();
     navigate(`/articles`);
   };
 
@@ -85,14 +90,16 @@ class Login extends Component {
   };
 
   submitSignup = () => {
+    const {fullName, username, avatar} = this.state
+    const {toggleShowLogin} = this.props
     const userObj = {
-      name: this.state.name,
-      username: this.state.username,
-      avatar_url: this.state.avatar,
+      name: fullName,
+      username: username,
+      avatar_url: avatar,
     };
     postNewUser(userObj)
       .then(() => {
-        this.props.toggleShowLogin();
+        toggleShowLogin();
         this.handleSignup();
         this.handleSubmit();
       })

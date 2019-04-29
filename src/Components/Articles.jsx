@@ -21,49 +21,52 @@ class Articles extends Component {
     sortOrder: 'asc',
   };
   render() {
+    const {endOfArticles, articles, showSortBy, showPostArticle, deleteWarning, page} = this.state
+    const {currentTopic, currentUser, username} = this.props
+    
     return (
       <div className="articles-list">
-        {!this.props.currentTopic ? (
-          !this.props.username && (
+        {!currentTopic ? (
+          !username && (
             <h1 className="header-title">Latest Articles</h1>
           )
         ) : (
-          <h1>{this.props.currentTopic}</h1>
+          <h1>{currentTopic}</h1>
         )}
-        {this.state.deleteWarning && (
+        {deleteWarning && (
           <DeleteWarning
             handleDelete={this.handleDelete}
             confirmDeleteArticle={this.confirmDeleteArticle}
           />
         )}
 
-        {this.state.articles && (
+        {articles && (
           <div className="articles-list">
             <div className="options-buttons">
-              {!this.props.username && (
+              {!username && (
                 <button onClick={this.toggleSortBy}>Sort By:</button>
               )}
               <div className="page-buttons">
                 <button
                   onClick={() => this.handlePageChange(-1)}
-                  disabled={this.state.page === 0}
+                  disabled={page === 0}
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => this.handlePageChange(1)}
-                  disabled={this.state.endOfArticles}
+                  disabled={endOfArticles}
                 >
                   Next
                 </button>
               </div>
-              {this.props.currentUser && this.props.currentUser !== 'Guest' && (
+              {currentUser && currentUser !== 'Guest' && (
                 <button onClick={this.handlePostArticleClick}>
                   Post An Article
                 </button>
               )}
             </div>
-            {this.state.showSortBy && (
+            {showSortBy && (
               <div className="sort-buttons">
                 <button onClick={() => this.fetchSortedArticles('created_at')}>
                   Date
@@ -82,22 +85,22 @@ class Articles extends Component {
                 </button>
               </div>
             )}
-            {this.props.currentUser && this.state.showPostArticle && (
+            {currentUser && showPostArticle && (
               <PostArticle
-                currentUser={this.props.currentUser}
+                currentUser={currentUser}
                 handlePostArticleClick={this.handlePostArticleClick}
               />
             )}
-            {this.state.articles.map(article => {
+            {articles.map(article => {
               return (
                 <div className="article-preview" key={article.article_id}>
                   <ArticleCard
                     article={article}
-                    currentUser={this.props.currentUser}
+                    currentUser={currentUser}
                   />
 
-                  {this.props.currentUser &&
-                    this.props.currentUser === article.author && (
+                  {currentUser &&
+                    currentUser === article.author && (
                       <div className="article-delete">
                         <DeleteButton
                           handleDelete={this.handleDelete}
@@ -111,13 +114,13 @@ class Articles extends Component {
             <div className="flex">
               <button
                 onClick={() => this.handlePageChange(-1)}
-                disabled={this.state.page === 0}
+                disabled={page === 0}
               >
                 Previous
               </button>
               <button
                 onClick={() => this.handlePageChange(1)}
-                disabled={this.state.endOfArticles}
+                disabled={endOfArticles}
               >
                 Next
               </button>
@@ -135,11 +138,13 @@ class Articles extends Component {
   };
 
   fetchSortedArticles = param => {
+    const {sortBy, sortOrder} = this.state
+    const {currentTopic} = this.props
     this.setState({ sortBy: param, page: 0 }, () => {
       fetchArticles({
-        sort_by: this.state.sortBy,
-        topic: this.props.currentTopic,
-        order: this.state.sortOrder,
+        sort_by: sortBy,
+        topic: currentTopic,
+        order: sortOrder,
       }).then(data => {
         const sortOrder = { asc: 'desc', desc: 'asc' };
         this.setState(prevState => {
@@ -160,26 +165,28 @@ class Articles extends Component {
   };
 
   handlePageChange = direction => {
+    const {page, sortBy, sortOrder, totalCount} = this.state
+    const {currentTopic, username} = this.props
     if (direction === -1) {
       this.setState({ endOfArticles: false });
     }
-    this.state.page + direction >= 0 &&
+    page + direction >= 0 &&
       this.setState(
         prevState => {
           return { page: prevState.page + direction };
         },
         () => {
           fetchArticles({
-            p: this.state.page * 10,
-            sort_by: this.state.sort_by,
-            topic: this.props.currentTopic,
-            author: this.props.username,
-            order: this.state.sortOrder,
+            p: page * 10,
+            sort_by: sortBy,
+            topic: currentTopic,
+            author: username,
+            order: sortOrder,
           })
             .then(data => {
               if (
-                (this.state.page + 1) * 10 >=
-                Math.ceil((this.state.totalCount + 1) / 10) * 10
+                (page + 1) * 10 >=
+                Math.ceil((totalCount + 1) / 10) * 10
               ) {
                 this.setState({ endOfArticles: true });
               }
@@ -203,10 +210,11 @@ class Articles extends Component {
   };
 
   confirmDeleteArticle = () => {
-    const filteredArticles = this.state.articles.filter(
-      article => article.article_id !== this.state.articleToDelete,
+    const {articles, articleToDelete} = this.state
+    const filteredArticles = articles.filter(
+      article => article.article_id !== articleToDelete,
     );
-    deleteArticle(this.state.articleToDelete)
+    deleteArticle(articleToDelete)
       .then(() => {
         this.setState(prevState => {
           return {
@@ -223,6 +231,7 @@ class Articles extends Component {
   };
 
   componentDidMount() {
+    const {page} = this.state
     if (this.props.articles) {
       const end = this.props.articles.length <= this.props.totalCount;
       this.setState({
@@ -231,7 +240,7 @@ class Articles extends Component {
         endOfArticles: end,
       });
     } else {
-      fetchArticles({ p: this.state.page }).then(data =>
+      fetchArticles({ p: page }).then(data =>
         this.setState({
           articles: data.articles,
           totalCount: data.total_count,
@@ -243,9 +252,10 @@ class Articles extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.currentTopic !== prevProps.currentTopic) {
+    const {currentTopic} = this.props
+    if (currentTopic !== prevProps.currentTopic) {
       fetchArticles({
-        topic: this.props.currentTopic,
+        topic: currentTopic,
       }).then(data => {
         const end = data.total_count <= 10;
         this.setState({

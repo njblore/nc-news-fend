@@ -22,6 +22,7 @@ class App extends Component {
   };
 
   render() {
+    const {currentAvatar, currentTopic, showLogin, showTopics, currentUser} = this.state
     return (
       <div className="App">
         <Header
@@ -29,12 +30,12 @@ class App extends Component {
           clearTopic={this.clearTopic}
           toggleShowLogin={this.toggleShowLogin}
           toggleLoggedIn={this.toggleLoggedIn}
-          currentUser={this.state.currentUser}
+          currentUser={currentUser}
           setCurrentAvatar={this.setCurrentAvatar}
-          currentAvatar={this.state.currentAvatar}
+          currentAvatar={currentAvatar}
         />
-        {this.state.showTopics && <Topics setTopic={this.setTopic} />}
-        {this.state.showLogin && (
+        {showTopics && <Topics setTopic={this.setTopic} />}
+        {showLogin && (
           <Login
             toggleShowLogin={this.toggleShowLogin}
             setCurrentUser={this.setCurrentUser}
@@ -44,17 +45,17 @@ class App extends Component {
           <Home path="/" />
           <Articles
             path="/articles"
-            currentTopic={this.state.currentTopic}
-            currentUser={this.state.currentUser}
+            currentTopic={currentTopic}
+            currentUser={currentUser}
           />
           <SingleArticle
             path="/articles/:article_id"
-            currentUser={this.state.currentUser}
+            currentUser={currentUser}
           />
           <User
             path="/users/:username"
-            currentUser={this.state.currentUser}
-            currentTopic={this.state.currentTopic}
+            currentUser={currentUser}
+            currentTopic={currentTopic}
           />
           <Error path="error" default />
         </Router>
@@ -63,10 +64,11 @@ class App extends Component {
   }
 
   toggleTopics = () => {
-    if (this.state.currentTopic) {
+    const { currentTopic, showTopics } = this.state
+    if (currentTopic) {
       this.clearTopic();
     }
-    this.setState({ showTopics: !this.state.showTopics });
+    this.setState({ showTopics: !showTopics });
   };
 
   clearTopic = () => {
@@ -84,7 +86,8 @@ class App extends Component {
   };
 
   toggleLoggedIn = () => {
-    if (this.state.currentUser) {
+    const {currentUser} = this.state
+    if (currentUser) {
       this.setState({ currentUser: null }, () => {
         localStorage.removeItem('currentUser');
         navigate('/articles', { state: { loggedOut: true } });
