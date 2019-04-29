@@ -79,7 +79,7 @@ class ArticleComments extends Component {
     fetchComments(this.props.article_id)
       .then(data => {
         data.length === 0
-          ? this.setState({ noComments: true })
+          ? this.setState({ noComments: true, comments: data })
           : this.setState({ comments: data });
       })
       .catch(err => {

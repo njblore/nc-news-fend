@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import VoteButtons from './VoteButtons';
 import { updateCommentVotes, deleteComment } from '../api';
 import DeleteButton from './DeleteButton';
+import Loading from './Loading';
 
 class CommentCard extends Component {
-  state = { commentVote: 0, showComment: true };
+  state = { commentVote: 0, showComment: true, voteLoading: false };
   render() {
     const postedAt = new Date(Date.parse(this.props.comment.created_at));
     return (
       this.state.showComment && (
         <div className="comment-card">
+          {this.state.voteLoading && <Loading />}
           <div className="comment-votes flex">
             {this.props.currentUser && (
               <VoteButtons
@@ -45,9 +47,14 @@ class CommentCard extends Component {
   };
 
   handleCommentVote = (vote, comment_id) => {
-    updateCommentVotes(comment_id, vote).then(data => {
-      this.setState(prevState => {
-        return { commentVote: prevState.commentVote + vote };
+    this.setState({ voteLoading: true }, () => {
+      updateCommentVotes(comment_id, vote).then(data => {
+        this.setState(prevState => {
+          return {
+            commentVote: prevState.commentVote + vote,
+            voteLoading: false,
+          };
+        });
       });
     });
   };
