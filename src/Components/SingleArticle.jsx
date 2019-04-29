@@ -4,18 +4,21 @@ import Axios from 'axios';
 import VoteButtons from './VoteButtons';
 import { updateArticleVotes } from '../api';
 import { navigate } from '@reach/router';
+import Loading from './Loading';
 
 class SingleArticle extends Component {
   state = {
     article: null,
     currentArticleVotes: 0,
     votingError: false,
+    voteLoading: false,
   };
   render() {
     return (
       <div className="single-article">
         {this.state.article && (
           <div>
+            {this.state.voteLoading && <Loading />}
             <header className="single-article-header">
               <h1>{this.state.article.title}</h1>
             </header>
@@ -57,18 +60,21 @@ class SingleArticle extends Component {
   }
 
   handleArticleVote = vote => {
-    updateArticleVotes(this.state.article.article_id, vote)
-      .then(() =>
-        this.setState(prevState => {
-          return {
-            currentArticleVotes: prevState.currentArticleVotes + vote,
-            votingError: false,
-          };
-        }),
-      )
-      .catch(() => {
-        this.setState({ votingError: true });
-      });
+    this.setState({ voteLoading: true }, () => {
+      updateArticleVotes(this.state.article.article_id, vote)
+        .then(() =>
+          this.setState(prevState => {
+            return {
+              currentArticleVotes: prevState.currentArticleVotes + vote,
+              votingError: false,
+              voteLoading: false,
+            };
+          }),
+        )
+        .catch(() => {
+          this.setState({ votingError: true });
+        });
+    });
   };
 
   componentDidMount() {
