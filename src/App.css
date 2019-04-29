@@ -114,7 +114,7 @@ nav {
 
 /*whole div*/
 .articles-list {
-  margin: 5vh auto;
+  margin: 2vh auto;
   width: 90vw;
 }
 
@@ -372,11 +372,12 @@ form {
 .user-heading {
   text-align: center;
   font-size: 1.2em;
+  margin-bottom: 0;
 }
 .profile-pic {
   max-width: 60vw;
   max-height: 30vh;
-  margin-bottom: 3vh;
+  margin: 3vh auto;
 }
 /* FORM ELEMENTS */
 .checkbox {
@@ -392,7 +393,6 @@ textarea {
   display: flex;
   flex-direction: column;
   background: white;
-  height: 100%;
   justify-content: space-between;
 }
 
