@@ -9,6 +9,7 @@ import Topics from './Components/Topics';
 import User from './Components/User';
 import Error from './Components/Error';
 import { navigate } from '@reach/router/';
+import Home from './Components/Home';
 
 class App extends Component {
   state = {
@@ -40,6 +41,7 @@ class App extends Component {
           />
         )}
         <Router>
+          <Home path="/" />
           <Articles
             path="/articles"
             currentTopic={this.state.currentTopic}

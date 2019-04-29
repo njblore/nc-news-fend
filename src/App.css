@@ -100,6 +100,15 @@ nav {
   padding: 0;
 }
 
+/* HOME */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 /* ARTICLES PAGE */
 
 .options-buttons {
