@@ -21,8 +21,10 @@ class SingleArticle extends Component {
             </header>
             <main>
               <div className="single-article-subtitle">
-                <h3>{this.state.article.author}</h3>
-                <h3>{this.state.article.topic}</h3>
+                <h3 className=" article-author">
+                  -{this.state.article.author}
+                </h3>
+                <h3>[{this.state.article.topic}]</h3>
                 <div className="single-article-votes">
                   <h3>
                     {this.state.article.votes + this.state.currentArticleVotes}

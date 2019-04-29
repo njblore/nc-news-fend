@@ -11,14 +11,19 @@ class PostComment extends Component {
             rows=""
             value={this.state.commentValue}
             onChange={this.handleTyping}
+            className="form-text"
           />
-          <button>Post</button>
-          <button
-            onClick={this.props.toggleShowPostComment}
-            className="bad-button"
-          >
-            Cancel
-          </button>
+          <div className="form-buttons">
+            <button type="submit" className="good-button">
+              Post
+            </button>
+            <button
+              onClick={this.props.toggleShowPostComment}
+              className="bad-button"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     );
