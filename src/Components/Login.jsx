@@ -20,7 +20,8 @@ class Login extends Component {
         </button>
         <form onSubmit={this.handleSubmit} className="flex">
           <input
-            onChange={e => this.handleTyping(e.target.value, 'username')}
+          name='username'
+            onChange={this.handleTyping}
           />
           {invalidUser && <p>Invalid Username!</p>}
           <button>Log In</button>
@@ -33,14 +34,15 @@ class Login extends Component {
             </button>
             Username:
             <input
-              onChange={e => this.handleTyping(e.target.value, 'username')}
+name='username'
+              onChange={this.handleTyping}
               value={username}
             />
             Name:
-            <input onChange={e => this.handleTyping(e.target.value, 'name')} />
+            <input name='name'onChange={this.handleTyping} />
             Avatar:
             <input
-              onChange={e => this.handleTyping(e.target.value, 'avatar')}
+              name='avatar_url' onChange={this.handleTyping}
             />
             <button onClick={this.submitSignup} className="good-button">
               Sign Me Up!
@@ -52,14 +54,10 @@ class Login extends Component {
     );
   }
 
-  handleTyping = (val, name) => {
-    if (name === 'username') {
-      this.setState({ username: val });
-    } else if (name === 'name') {
-      this.setState({ name: val });
-    } else if (name === 'avatar') {
-      this.setState({ avatar: val });
-    }
+  handleTyping = (e) => {
+
+    this.setState({[e.target.name]: e.target.value})
+
   };
 
   handleSubmit = e => {

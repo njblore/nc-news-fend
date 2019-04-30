@@ -44,18 +44,20 @@ class User extends Component {
                       Change My Name:
                       <input
                         value={newName}
-                        onChange={e => {
-                          this.handleTyping(e.target.value, 'name');
-                        }}
+                        name='newName'
+                        onChange={
+                          this.handleTyping
+                        }
                       />
                     </label>
                     <label className="profile-label flex">
                       Change My Profile Pic:{' '}
                       <input
                         value={newAvatar}
-                        onChange={e => {
-                          this.handleTyping(e.target.value, 'avatar');
-                        }}
+                        name='newAvatar'
+                        onChange={
+                          this.handleTyping
+                        }
                       />
                     </label>
                     <div className="flex">
@@ -145,12 +147,9 @@ class User extends Component {
     });
   };
 
-  handleTyping = (val, name) => {
-    if (name === 'name') {
-      this.setState({ newName: val });
-    } else if (name === 'avatar') {
-      this.setState({ newAvatar: val });
-    }
+  handleTyping = (e) => {
+    this.setState({[e.target.name]: e.target.value})
+
   };
 
   handleSubmit = () => {
