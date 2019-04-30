@@ -18,13 +18,13 @@ class PostComment extends Component {
           <div className="form-buttons">
             <button type="submit" className="good-button">
               Post
-            </button>
-            <button
+            </button><button
               onClick={toggleShowPostComment}
               className="bad-button"
             >
               Cancel
             </button>
+            
           </div>
         </form>
       </div>

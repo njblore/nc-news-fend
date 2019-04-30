@@ -76,7 +76,9 @@ class App extends Component {
   };
 
   setTopic = topic => {
-    this.setState({ currentTopic: topic });
+    this.setState({ currentTopic: topic }, () => {
+      navigate('/articles')
+    });
   };
 
   toggleShowLogin = () => {

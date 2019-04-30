@@ -240,7 +240,7 @@ class Articles extends Component {
         endOfArticles: end,
       });
     } else {
-      fetchArticles({ p: page }).then(data =>
+      fetchArticles({ p: page, topic: this.props.currentTopic }).then(data =>
         this.setState({
           articles: data.articles,
           totalCount: data.total_count,
