@@ -21,7 +21,7 @@ class Articles extends Component {
     sortOrder: 'asc',
   };
   render() {
-    const {endOfArticles, articles, showSortBy, showPostArticle, deleteWarning, page} = this.state
+    const {endOfArticles, showSortBy, showPostArticle, deleteWarning, page} = this.state
     const {currentTopic, currentUser, username} = this.props
     
     return (
@@ -40,7 +40,7 @@ class Articles extends Component {
           />
         )}
 
-        {articles && (
+        {this.state.articles && (
           <div className="articles-list">
             <div className="options-buttons">
               {!username && (
@@ -91,7 +91,7 @@ class Articles extends Component {
                 handlePostArticleClick={this.handlePostArticleClick}
               />
             )}
-            {articles.map(article => {
+            {this.state.articles.map(article => {
               return (
                 <div className="article-preview" key={article.article_id}>
                   <ArticleCard
@@ -166,7 +166,7 @@ class Articles extends Component {
 
   handlePageChange = direction => {
     const {page, sortBy, sortOrder, totalCount} = this.state
-    const {currentTopic, username} = this.props
+    const {currentTopic} = this.props
     if (direction === -1) {
       this.setState({ endOfArticles: false });
     }
@@ -176,11 +176,11 @@ class Articles extends Component {
           return { page: prevState.page + direction };
         },
         () => {
+
           fetchArticles({
-            p: page * 10,
+            p: page* 10,
             sort_by: sortBy,
             topic: currentTopic,
-            author: username,
             order: sortOrder,
           })
             .then(data => {
@@ -190,6 +190,7 @@ class Articles extends Component {
               ) {
                 this.setState({ endOfArticles: true });
               }
+              console.log(data)
               this.setState({
                 articles: data.articles,
                 totalCount: data.total_count,
@@ -232,6 +233,7 @@ class Articles extends Component {
 
   componentDidMount() {
     const {page} = this.state
+    
     if (this.props.articles) {
       const end = this.props.articles.length <= this.props.totalCount;
       this.setState({
@@ -240,7 +242,7 @@ class Articles extends Component {
         endOfArticles: end,
       });
     } else {
-      fetchArticles({ p: page, topic: this.props.currentTopic }).then(data =>
+      fetchArticles({ p: page, topic: this.props.currentTopic}).then(data =>
         this.setState({
           articles: data.articles,
           totalCount: data.total_count,
@@ -265,7 +267,7 @@ class Articles extends Component {
           endOfArticles: end,
         });
       });
-    }
+    } 
   }
 }
 
