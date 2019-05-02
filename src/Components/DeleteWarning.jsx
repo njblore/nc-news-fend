@@ -7,7 +7,7 @@ const DeleteWarning = props => {
         Warning! This will irreversibly delete your article, are you sure?
       </h1>
       
-      <button onClick={() => props.handleDelete()} className="good-button">
+      <button onClick={props.handleDelete} className="good-button">
         No, wait!
       </button><button onClick={props.confirmDeleteArticle} className="bad-button">
         Yes, delete it

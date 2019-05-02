@@ -9,6 +9,22 @@ Back End repo: https://github.com/njblore/nc_news
 
 ### Getting Started
 
+You need node.js (at least v11.0.0) and npm (at least version 6.4.1) and VS code or another text editor
+
+Fork and clone this project locally, then use npm to install dependencies:
+
 ```
-npm install @reach/router
+npm install
 ```
+
+This should bring in react, react-scripts, react-dom and @reach/router, you can check the node_modules folder to make sure they have all been added.
+
+### Running The App Locally
+
+In your terminal, use:
+
+```
+npm start
+```
+
+Then you can view the site in your web browser.

@@ -11,58 +11,52 @@ class Login extends Component {
     avatar: '',
   };
   render() {
-    const {username, invalidUser, showSignup} = this.state
-    const {toggleShowLogin} = this.props
+    const { username, invalidUser, showSignup } = this.state;
+    const { toggleShowLogin } = this.props;
     return (
       <div className="login-box popup">
         <button onClick={toggleShowLogin} className="bad-button">
           Close
         </button>
         <form onSubmit={this.handleSubmit} className="flex">
-          <input
-          name='username'
-            onChange={this.handleTyping}
-          />
+          <input name="username" onChange={this.handleTyping} />
           {invalidUser && <p>Invalid Username!</p>}
           <button>Log In</button>
         </form>
         <button onClick={this.handleSignup}>Sign Up!</button>
         {showSignup && (
-          <div className="signup-popup popup">
+          <form onSubmit={this.submitSignup} className="signup-popup popup">
             <button onClick={this.handleSignup} className="bad-button">
               Cancel
             </button>
             Username:
             <input
-name='username'
+              name="username"
               onChange={this.handleTyping}
               value={username}
             />
             Name:
-            <input name='name'onChange={this.handleTyping} />
+            <input name="fullName" onChange={this.handleTyping} />
             Avatar:
-            <input
-              name='avatar_url' onChange={this.handleTyping}
-            />
-            <button onClick={this.submitSignup} className="good-button">
+            <input name="avatar" onChange={this.handleTyping} />
+            <button type="submit" className="good-button">
               Sign Me Up!
             </button>
-          </div>
+          </form>
         )}
         <button onClick={this.handleGuest}>Log In As Guest</button>
       </div>
     );
   }
 
-  handleTyping = (e) => {
-
-    this.setState({[e.target.name]: e.target.value})
-
+  handleTyping = e => {
+    console.log(e.target.name);
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = e => {
-    const {username} = this.state
-    const {setCurrentUser, toggleShowLogin} = this.props
+    const { username } = this.state;
+    const { setCurrentUser, toggleShowLogin } = this.props;
     e && e.preventDefault();
     fetchUser(username)
       .then(data => {
@@ -75,7 +69,7 @@ name='username'
   };
 
   handleGuest = () => {
-    const {setCurrentUser, toggleShowLogin} = this.props
+    const { setCurrentUser, toggleShowLogin } = this.props;
     setCurrentUser('Guest');
     toggleShowLogin();
     navigate(`/articles`);
@@ -87,19 +81,21 @@ name='username'
     });
   };
 
-  submitSignup = () => {
-    const {fullName, username, avatar} = this.state
-    const {toggleShowLogin} = this.props
+  submitSignup = e => {
+    e.preventDefault();
+    console.log(this.state);
+    const { fullName, username, avatar } = this.state;
+    const { toggleShowLogin } = this.props;
     const userObj = {
       name: fullName,
       username: username,
       avatar_url: avatar,
     };
+    console.log(userObj);
     postNewUser(userObj)
       .then(() => {
-        toggleShowLogin();
-        this.handleSignup();
         this.handleSubmit();
+        this.handleSignup();
       })
       .catch(err => console.log(err.response));
   };

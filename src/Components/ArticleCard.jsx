@@ -6,8 +6,8 @@ import { updateArticleVotes } from '../api';
 class ArticleCard extends Component {
   state = { currentArticleVotes: 0, votingError: false };
   render() {
-    const {currentArticleVotes} = this.state
-    const {currentUser, article} = this.props
+    const { currentArticleVotes } = this.state;
+    const { currentUser, article } = this.props;
     return (
       <div className="article-sub-preview">
         {currentUser ? (
@@ -17,6 +17,7 @@ class ArticleCard extends Component {
               handleArticleVote={this.handleArticleVote}
               votes={article.votes}
               votesToAdd={currentArticleVotes}
+              currentArticleVotes={currentArticleVotes}
             />
           </div>
         ) : (
@@ -38,9 +39,7 @@ class ArticleCard extends Component {
             </Link>
             <div className="article-header-subtitle">
               <Link to={`/users/${article.author}`} className="link">
-                <h3 className=" article-author">
-                  - {article.author}
-                </h3>
+                <h3 className=" article-author">- {article.author}</h3>
               </Link>
               <h3>{article.created_at.slice(0, 10)}</h3>
               <h3 className="">[{article.topic}] </h3>
@@ -62,8 +61,8 @@ class ArticleCard extends Component {
     );
   }
 
-  handleArticleVote = (vote, _, article_id) => {
-    updateArticleVotes(article_id, vote)
+  handleArticleVote = (vote, _) => {
+    updateArticleVotes(this.props.article.article_id, vote)
       .then(() => {
         this.setState(prevState => {
           return {

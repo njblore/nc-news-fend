@@ -21,9 +21,17 @@ class User extends Component {
     totalCount: null,
   };
   render() {
-    const {user, articles, deleteWarning, showEditProfile, newName, newAvatar, totalCount} = this.state
-    const {location, currentUser} = this.props
-    
+    const {
+      user,
+      articles,
+      deleteWarning,
+      showEditProfile,
+      newName,
+      newAvatar,
+      totalCount,
+    } = this.state;
+    const { location, currentUser } = this.props;
+
     return (
       <div className="user-page-container">
         {deleteWarning && (
@@ -34,8 +42,7 @@ class User extends Component {
         )}
         {user && (
           <>
-            {(location.state &&
-              location.state.fromLogin) ||
+            {(location.state && location.state.fromLogin) ||
             currentUser === user.username ? (
               <>
                 {showEditProfile && (
@@ -44,20 +51,16 @@ class User extends Component {
                       Change My Name:
                       <input
                         value={newName}
-                        name='newName'
-                        onChange={
-                          this.handleTyping
-                        }
+                        name="newName"
+                        onChange={this.handleTyping}
                       />
                     </label>
                     <label className="profile-label flex">
                       Change My Profile Pic:{' '}
                       <input
                         value={newAvatar}
-                        name='newAvatar'
-                        onChange={
-                          this.handleTyping
-                        }
+                        name="newAvatar"
+                        onChange={this.handleTyping}
                       />
                     </label>
                     <div className="flex">
@@ -76,9 +79,7 @@ class User extends Component {
                     </div>
                   </div>
                 )}
-                <h2 className="user-heading">
-                  Welcome Back {user.name}!
-                </h2>
+                <h2 className="user-heading">Welcome Back {user.name}!</h2>
                 <img
                   src={user.avatar_url}
                   className="profile-pic"
@@ -95,9 +96,7 @@ class User extends Component {
                   alt="user avatar"
                   className="profile-pic"
                 />
-                <h3 className="user-heading">
-                  Articles By {user.name}:
-                </h3>
+                <h3 className="user-heading">Articles By {user.name}:</h3>
               </>
             )}
             {articles && (
@@ -124,7 +123,7 @@ class User extends Component {
   };
 
   confirmDeleteArticle = () => {
-    const {articles, articleToDelete} = this.state
+    const { articles, articleToDelete } = this.state;
     const filteredArticles = articles.filter(
       article => article.article_id !== articleToDelete,
     );
@@ -147,13 +146,12 @@ class User extends Component {
     });
   };
 
-  handleTyping = (e) => {
-    this.setState({[e.target.name]: e.target.value})
-
+  handleTyping = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = () => {
-    const {newAvatar, newName, user} = this.state
+    const { newAvatar, newName, user } = this.state;
     let newUser = {};
     if (newAvatar) {
       newUser.avatar_url = newAvatar;
@@ -168,7 +166,7 @@ class User extends Component {
   };
 
   componentDidMount() {
-    const {username} = this.props
+    const { username } = this.props;
     fetchUser(username)
       .then(data => {
         this.setState({ user: data }, () => {
@@ -184,13 +182,10 @@ class User extends Component {
         const msg = err.response.data.msg;
         navigate('/Error', { replace: true, state: { msg } });
       });
-    // fetchArticles({ author: username }).then(data =>
-    //   this.setState({ articles: data.articles, totalCount: data.total_count }),
-    // );
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {currentTopic, username} = this.props
+    const { currentTopic, username } = this.props;
     if (currentTopic !== prevProps.currentTopic) {
       fetchArticles({
         author: username,
