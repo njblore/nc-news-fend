@@ -21,15 +21,19 @@ class Articles extends Component {
     sortOrder: 'asc',
   };
   render() {
-    const {endOfArticles, showSortBy, showPostArticle, deleteWarning, page} = this.state
-    const {currentTopic, currentUser, username} = this.props
-    
+    const {
+      endOfArticles,
+      showSortBy,
+      showPostArticle,
+      deleteWarning,
+      page,
+    } = this.state;
+    const { currentTopic, currentUser, username } = this.props;
+
     return (
       <div className="articles-list">
         {!currentTopic ? (
-          !username && (
-            <h1 className="header-title">Latest Articles</h1>
-          )
+          !username && <h1 className="header-title">Latest Articles</h1>
         ) : (
           <h1>{currentTopic}</h1>
         )}
@@ -94,20 +98,16 @@ class Articles extends Component {
             {this.state.articles.map(article => {
               return (
                 <div className="article-preview" key={article.article_id}>
-                  <ArticleCard
-                    article={article}
-                    currentUser={currentUser}
-                  />
+                  <ArticleCard article={article} currentUser={currentUser} />
 
-                  {currentUser &&
-                    currentUser === article.author && (
-                      <div className="article-delete">
-                        <DeleteButton
-                          handleDelete={this.handleDelete}
-                          article_id={article.article_id}
-                        />
-                      </div>
-                    )}
+                  {currentUser && currentUser === article.author && (
+                    <div className="article-delete">
+                      <DeleteButton
+                        handleDelete={this.handleDelete}
+                        article_id={article.article_id}
+                      />
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -138,8 +138,8 @@ class Articles extends Component {
   };
 
   fetchSortedArticles = param => {
-    const {sortBy, sortOrder} = this.state
-    const {currentTopic} = this.props
+    const { sortBy, sortOrder } = this.state;
+    const { currentTopic } = this.props;
     this.setState({ sortBy: param, page: 0 }, () => {
       fetchArticles({
         sort_by: sortBy,
@@ -165,8 +165,8 @@ class Articles extends Component {
   };
 
   handlePageChange = direction => {
-    const {page, sortBy, sortOrder, totalCount} = this.state
-    const {currentTopic} = this.props
+    const { page, sortBy, sortOrder, totalCount } = this.state;
+    const { currentTopic } = this.props;
     if (direction === -1) {
       this.setState({ endOfArticles: false });
     }
@@ -176,21 +176,18 @@ class Articles extends Component {
           return { page: prevState.page + direction };
         },
         () => {
-
           fetchArticles({
-            p: page* 10,
-            sort_by: sortBy,
+            p: this.state.page * 10,
+            // sort_by: sortBy,
             topic: currentTopic,
-            order: sortOrder,
+            // order: sortOrder,
           })
             .then(data => {
-              if (
-                (page + 1) * 10 >=
-                Math.ceil((totalCount + 1) / 10) * 10
-              ) {
+              console.log(data.articles);
+              if ((page + 1) * 10 >= Math.ceil((totalCount + 1) / 10) * 10) {
                 this.setState({ endOfArticles: true });
               }
-              console.log(data)
+
               this.setState({
                 articles: data.articles,
                 totalCount: data.total_count,
@@ -211,7 +208,7 @@ class Articles extends Component {
   };
 
   confirmDeleteArticle = () => {
-    const {articles, articleToDelete} = this.state
+    const { articles, articleToDelete } = this.state;
     const filteredArticles = articles.filter(
       article => article.article_id !== articleToDelete,
     );
@@ -232,8 +229,8 @@ class Articles extends Component {
   };
 
   componentDidMount() {
-    const {page} = this.state
-    
+    const { page } = this.state;
+
     if (this.props.articles) {
       const end = this.props.articles.length <= this.props.totalCount;
       this.setState({
@@ -242,7 +239,7 @@ class Articles extends Component {
         endOfArticles: end,
       });
     } else {
-      fetchArticles({ p: page, topic: this.props.currentTopic}).then(data =>
+      fetchArticles({ p: page, topic: this.props.currentTopic }).then(data =>
         this.setState({
           articles: data.articles,
           totalCount: data.total_count,
@@ -254,7 +251,7 @@ class Articles extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {currentTopic} = this.props
+    const { currentTopic } = this.props;
     if (currentTopic !== prevProps.currentTopic) {
       fetchArticles({
         topic: currentTopic,
@@ -267,7 +264,9 @@ class Articles extends Component {
           endOfArticles: end,
         });
       });
-    } 
+    }
+    if (this.state.articles !== prevState.articles) {
+    }
   }
 }
 

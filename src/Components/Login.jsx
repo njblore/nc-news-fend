@@ -50,7 +50,6 @@ class Login extends Component {
   }
 
   handleTyping = e => {
-    console.log(e.target.name);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -83,7 +82,6 @@ class Login extends Component {
 
   submitSignup = e => {
     e.preventDefault();
-    console.log(this.state);
     const { fullName, username, avatar } = this.state;
     const { toggleShowLogin } = this.props;
     const userObj = {
@@ -91,13 +89,13 @@ class Login extends Component {
       username: username,
       avatar_url: avatar,
     };
-    console.log(userObj);
+
     postNewUser(userObj)
       .then(() => {
         this.handleSubmit();
         this.handleSignup();
       })
-      .catch(err => console.log(err.response));
+      .catch(err => this.setState({ invalidUser: true }));
   };
 }
 
