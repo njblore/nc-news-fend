@@ -72,15 +72,24 @@ class Articles extends Component {
             </div>
             {showSortBy && (
               <div className="sort-buttons">
-                <button onClick={() => this.fetchSortedArticles('created_at')}>
+                {/* <div>
+                  <input type="radio">Asc</input>
+                  <input type="radio">Desc</input>
+                </div> */}
+                <button
+                  className="sort-button"
+                  onClick={() => this.fetchSortedArticles('created_at')}
+                >
                   Date
                 </button>
                 <button
+                  className="sort-button"
                   onClick={() => this.fetchSortedArticles('comment_count')}
                 >
-                  Comment Count
+                  Comments
                 </button>
                 <button
+                  className="sort-button"
                   onClick={() => {
                     this.fetchSortedArticles('votes');
                   }}
@@ -140,7 +149,7 @@ class Articles extends Component {
   fetchSortedArticles = param => {
     const { sortOrder } = this.state;
     const { currentTopic } = this.props;
-
+    this.toggleSortBy();
     fetchArticles({
       sort_by: param,
       topic: currentTopic,
