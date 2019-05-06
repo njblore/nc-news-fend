@@ -137,22 +137,16 @@ class Articles extends Component {
     });
   };
 
-  displayArticles = params => {
-    fetchArticles(params).then(data =>
-      this.setState({ articles: data.articles }),
-    );
-  };
-
   fetchSortedArticles = param => {
-    const { sortBy, sortOrder } = this.state;
+    const { sortOrder } = this.state;
     const { currentTopic } = this.props;
 
-    this.displayArticles({
+    fetchArticles({
       sort_by: param,
       topic: currentTopic,
       order: sortOrder,
       page: 0,
-    });
+    }).then(data => this.setState({ articles: data.articles, sortBy: param }));
 
     // this.setState({ sortBy: param, page: 0 }, () => {
     //   fetchArticles({
@@ -185,32 +179,52 @@ class Articles extends Component {
     if (direction === -1) {
       this.setState({ endOfArticles: false });
     }
-    page + direction >= 0 &&
-      this.setState(
-        prevState => {
-          return { page: prevState.page + direction };
-        },
-        () => {
-          fetchArticles({
-            p: this.state.page * 10,
-            // sort_by: sortBy,
-            topic: currentTopic,
-            // order: sortOrder,
-          })
-            .then(data => {
-              console.log(data.articles);
-              if ((page + 1) * 10 >= Math.ceil((totalCount + 1) / 10) * 10) {
-                this.setState({ endOfArticles: true });
-              }
 
-              this.setState({
-                articles: data.articles,
-                totalCount: data.total_count,
-              });
-            })
-            .catch(err => console.log(err.response));
-        },
-      );
+    // page + direction >= 0 &&
+    //   this.setState(
+    //     prevState => {
+    //       return { page: prevState.page + direction };
+    //     },
+    //     () => {
+    //       fetchArticles({
+    //         p: this.state.page * 10,
+    //         // sort_by: sortBy,
+    //         topic: currentTopic,
+    //         // order: sortOrder,
+    //       })
+    //         .then(data => {
+    //           if ((page + 1) * 10 >= Math.ceil((totalCount + 1) / 10) * 10) {
+    //             this.setState({ endOfArticles: true });
+    //           }
+
+    //           this.setState({
+    //             articles: data.articles,
+    //             totalCount: data.total_count,
+    //           });
+    //         })
+    //         .catch(err => console.log(err.response));
+    //     },
+    //   );
+
+    page + direction >= 0 &&
+      fetchArticles({
+        p: (this.state.page + direction) * 10,
+        topic: currentTopic,
+        order: sortOrder,
+        sort_by: sortBy,
+      }).then(data => {
+        if ((page + 1) * 10 >= Math.ceil((totalCount + 1) / 10) * 10) {
+          this.setState({ endOfArticles: true });
+        }
+
+        this.setState(prevState => {
+          return {
+            articles: data.articles,
+            totalCount: data.total_count,
+            page: prevState.page + direction,
+          };
+        });
+      });
   };
 
   handleDelete = article_id => {
