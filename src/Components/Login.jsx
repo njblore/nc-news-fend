@@ -4,7 +4,7 @@ import { navigate } from '@reach/router';
 
 class Login extends Component {
   state = {
-    username: '',
+    username: 'alyssa99',
     invalidUser: false,
     showSignup: false,
     fullName: '',
@@ -19,7 +19,11 @@ class Login extends Component {
           Close
         </button>
         <form onSubmit={this.handleSubmit} className="flex">
-          <input name="username" onChange={this.handleTyping} />
+          <input
+            name="username"
+            onChange={this.handleTyping}
+            value={username}
+          />
           {invalidUser && <p>Invalid Username!</p>}
           <button>Log In</button>
         </form>
