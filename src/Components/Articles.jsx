@@ -19,6 +19,7 @@ class Articles extends Component {
     totalCount: null,
     loggedInUser: null,
     sortOrder: 'asc',
+    checked: 'asc',
   };
   render() {
     const {
@@ -72,10 +73,24 @@ class Articles extends Component {
             </div>
             {showSortBy && (
               <div className="sort-buttons">
-                {/* <div>
-                  <input type="radio">Asc</input>
-                  <input type="radio">Desc</input>
-                </div> */}
+                <div className="radio-buttons">
+                  Asc
+                  <input
+                    type="radio"
+                    value="asc"
+                    name="asc"
+                    checked={this.state.checked === 'asc'}
+                    onChange={this.setSortOrder}
+                  />
+                  Desc
+                  <input
+                    type="radio"
+                    value="asc"
+                    name="desc"
+                    checked={this.state.checked === 'desc'}
+                    onChange={this.setSortOrder}
+                  />
+                </div>
                 <button
                   className="sort-button"
                   onClick={() => this.fetchSortedArticles('created_at')}
@@ -155,30 +170,31 @@ class Articles extends Component {
       topic: currentTopic,
       order: sortOrder,
       page: 0,
-    }).then(data => this.setState({ articles: data.articles, sortBy: param }));
-
-    // this.setState({ sortBy: param, page: 0 }, () => {
-    //   fetchArticles({
-    //     sort_by: sortBy,
-    //     topic: currentTopic,
-    //     order: sortOrder,
-    //   });
-    // })
-    // .then(data => {
-    //   const sortOrder = { asc: 'desc', desc: 'asc' };
-    //   this.setState(prevState => {
-    //     return {
-    //       articles: data.articles,
-    //       endOfArticles: false,
-    //       // sortOrder: sortOrder[prevState.sortOrder],
-    //     };
-    //   });
-    // });
+    }).then(data =>
+      this.setState({ articles: data.articles, page: 0, sortBy: param }),
+    );
   };
 
   handlePostArticleClick = () => {
     this.setState(prevState => {
       return { showPostArticle: !prevState.showPostArticle };
+    });
+  };
+
+  setSortOrder = e => {
+    let order = e.target.name;
+    fetchArticles({
+      sort_by: this.state.sortBy,
+      topic: this.state.currentTopic,
+      page: 0,
+
+      order: order,
+    }).then(data => {
+      this.setState({
+        articles: data.articles,
+        sortOrder: order,
+        checked: order,
+      });
     });
   };
 
@@ -188,32 +204,6 @@ class Articles extends Component {
     if (direction === -1) {
       this.setState({ endOfArticles: false });
     }
-
-    // page + direction >= 0 &&
-    //   this.setState(
-    //     prevState => {
-    //       return { page: prevState.page + direction };
-    //     },
-    //     () => {
-    //       fetchArticles({
-    //         p: this.state.page * 10,
-    //         // sort_by: sortBy,
-    //         topic: currentTopic,
-    //         // order: sortOrder,
-    //       })
-    //         .then(data => {
-    //           if ((page + 1) * 10 >= Math.ceil((totalCount + 1) / 10) * 10) {
-    //             this.setState({ endOfArticles: true });
-    //           }
-
-    //           this.setState({
-    //             articles: data.articles,
-    //             totalCount: data.total_count,
-    //           });
-    //         })
-    //         .catch(err => console.log(err.response));
-    //     },
-    //   );
 
     page + direction >= 0 &&
       fetchArticles({
@@ -302,8 +292,6 @@ class Articles extends Component {
           endOfArticles: end,
         });
       });
-    }
-    if (this.state.articles !== prevState.articles) {
     }
   }
 }
