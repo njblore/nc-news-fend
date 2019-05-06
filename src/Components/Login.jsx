@@ -83,7 +83,6 @@ class Login extends Component {
   submitSignup = e => {
     e.preventDefault();
     const { fullName, username, avatar } = this.state;
-    const { toggleShowLogin } = this.props;
     const userObj = {
       name: fullName,
       username: username,

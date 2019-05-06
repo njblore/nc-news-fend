@@ -137,25 +137,40 @@ class Articles extends Component {
     });
   };
 
+  displayArticles = params => {
+    fetchArticles(params).then(data =>
+      this.setState({ articles: data.articles }),
+    );
+  };
+
   fetchSortedArticles = param => {
     const { sortBy, sortOrder } = this.state;
     const { currentTopic } = this.props;
-    this.setState({ sortBy: param, page: 0 }, () => {
-      fetchArticles({
-        sort_by: sortBy,
-        topic: currentTopic,
-        order: sortOrder,
-      }).then(data => {
-        const sortOrder = { asc: 'desc', desc: 'asc' };
-        this.setState(prevState => {
-          return {
-            articles: data.articles,
-            endOfArticles: false,
-            sortOrder: sortOrder[prevState.sortOrder],
-          };
-        });
-      });
+
+    this.displayArticles({
+      sort_by: param,
+      topic: currentTopic,
+      order: sortOrder,
+      page: 0,
     });
+
+    // this.setState({ sortBy: param, page: 0 }, () => {
+    //   fetchArticles({
+    //     sort_by: sortBy,
+    //     topic: currentTopic,
+    //     order: sortOrder,
+    //   });
+    // })
+    // .then(data => {
+    //   const sortOrder = { asc: 'desc', desc: 'asc' };
+    //   this.setState(prevState => {
+    //     return {
+    //       articles: data.articles,
+    //       endOfArticles: false,
+    //       // sortOrder: sortOrder[prevState.sortOrder],
+    //     };
+    //   });
+    // });
   };
 
   handlePostArticleClick = () => {
