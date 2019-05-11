@@ -18,8 +18,8 @@ class Articles extends Component {
     endOfArticles: false,
     totalCount: null,
     loggedInUser: null,
-    sortOrder: 'asc',
-    checked: 'asc',
+    sortOrder: 'desc',
+    checked: 'desc',
   };
   render() {
     const {
@@ -186,6 +186,7 @@ class Articles extends Component {
     let order = e.target.name;
     const { sortBy } = this.state;
     const { currentTopic } = this.props;
+    this.toggleSortBy();
     fetchArticles({
       sort_by: sortBy,
       topic: currentTopic,
