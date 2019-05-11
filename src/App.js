@@ -22,7 +22,13 @@ class App extends Component {
   };
 
   render() {
-    const {currentAvatar, currentTopic, showLogin, showTopics, currentUser} = this.state
+    const {
+      currentAvatar,
+      currentTopic,
+      showLogin,
+      showTopics,
+      currentUser,
+    } = this.state;
     return (
       <div className="App">
         <Header
@@ -33,6 +39,7 @@ class App extends Component {
           currentUser={currentUser}
           setCurrentAvatar={this.setCurrentAvatar}
           currentAvatar={currentAvatar}
+          hideTopics={this.hideTopics}
         />
         {showTopics && <Topics setTopic={this.setTopic} />}
         {showLogin && (
@@ -64,7 +71,7 @@ class App extends Component {
   }
 
   toggleTopics = () => {
-    const { currentTopic, showTopics } = this.state
+    const { currentTopic, showTopics } = this.state;
     if (currentTopic) {
       this.clearTopic();
     }
@@ -75,9 +82,14 @@ class App extends Component {
     this.setState({ currentTopic: null });
   };
 
+  hideTopics = () => {
+    const { showTopics } = this.state;
+    this.setState({ showTopics: false });
+  };
+
   setTopic = topic => {
     this.setState({ currentTopic: topic }, () => {
-      navigate('/articles')
+      navigate('/articles');
     });
   };
 
@@ -88,7 +100,7 @@ class App extends Component {
   };
 
   toggleLoggedIn = () => {
-    const {currentUser} = this.state
+    const { currentUser } = this.state;
     if (currentUser) {
       this.setState({ currentUser: null }, () => {
         localStorage.removeItem('currentUser');
