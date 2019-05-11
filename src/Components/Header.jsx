@@ -72,11 +72,15 @@ class Header extends Component {
     );
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps, prevState) {
     const { currentUser, setCurrentAvatar } = this.props;
-    currentUser &&
-      currentUser !== 'Guest' &&
-      fetchUser(currentUser).then(data => setCurrentAvatar(data.avatar_url));
+    if (prevProps.currentUser !== currentUser) {
+      currentUser &&
+        currentUser !== 'Guest' &&
+        fetchUser(currentUser).then(data => {
+          setCurrentAvatar(data.avatar_url);
+        });
+    }
   }
 }
 

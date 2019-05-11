@@ -83,7 +83,6 @@ class App extends Component {
   };
 
   hideTopics = () => {
-    const { showTopics } = this.state;
     this.setState({ showTopics: false });
   };
 
