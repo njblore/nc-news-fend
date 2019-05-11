@@ -28,6 +28,7 @@ class Articles extends Component {
       showPostArticle,
       deleteWarning,
       page,
+      checked,
     } = this.state;
     const { currentTopic, currentUser, username } = this.props;
 
@@ -79,7 +80,7 @@ class Articles extends Component {
                     type="radio"
                     value="asc"
                     name="asc"
-                    checked={this.state.checked === 'asc'}
+                    checked={checked === 'asc'}
                     onChange={this.setSortOrder}
                   />
                   Desc
@@ -87,7 +88,7 @@ class Articles extends Component {
                     type="radio"
                     value="asc"
                     name="desc"
-                    checked={this.state.checked === 'desc'}
+                    checked={checked === 'desc'}
                     onChange={this.setSortOrder}
                   />
                 </div>
@@ -183,9 +184,11 @@ class Articles extends Component {
 
   setSortOrder = e => {
     let order = e.target.name;
+    const { sortBy } = this.state;
+    const { currentTopic } = this.props;
     fetchArticles({
-      sort_by: this.state.sortBy,
-      topic: this.state.currentTopic,
+      sort_by: sortBy,
+      topic: currentTopic,
       page: 0,
 
       order: order,
